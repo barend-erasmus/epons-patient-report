@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
+import * as moment from 'moment';
 
 // Imports services
 import { BaseService } from './base.service';
@@ -18,12 +19,12 @@ export class PatientService extends BaseService {
     super(http);
   }
 
-  public listCompletedMeasurementTools(): Observable<CompletedMeasurementTool[]> {
-    return this.get('/api/Patient/ListCompletedMeasurementTools?patientId=5c4042d2-258e-416f-a421-873f9371e20c').map((x) => {
+  public listCompletedMeasurementTools(patientId: string, startDate: Date, endDate: Date): Observable<CompletedMeasurementTool[]> {
+    return this.get(`/api/Patient/ListCompletedMeasurementTools?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`).map((x) => {
 
       const json: any[] = x.json();
 
-      const result = json.map((x) => new CompletedMeasurementTool(new MeasurementTool(x.MeasurementTool.id, x.MeasurementTool.name), x.StartDate, x.EndDate, x.ScoreItems))
+      const result = json.map((x) => new CompletedMeasurementTool(new MeasurementTool(x.MeasurementTool.Id, x.MeasurementTool.Name), moment(x.StartDate).toDate(), moment(x.EndDate).toDate(), x.ScoreItems))
 
       return result;
     });

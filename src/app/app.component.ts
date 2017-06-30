@@ -1,6 +1,7 @@
 // Imports
 import { Headers, Http, Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 // Imports services
 import { PatientService } from './services/patient.service';
@@ -17,16 +18,35 @@ export class AppComponent {
 
   private patientService: PatientService = null;
 
-  // public radarChartLabels: string[] = [];
+  public radarChartLabels: string[] = ['A', 'B', 'C'];
 
-  // public radarChartData: Array<{ data: number[], label: string }> = [];
-
-  public radarChartLabels:string[] = ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'];
- 
-  public radarChartData:any = [
-    {data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B'}
+  public radarChartData: Array<{ data: number[], label: string }> = [
+    {
+      data: [1, 2 ,3],
+      label: 'Demo'
+    }
   ];
+
+  public options: any = {
+    scale: {
+      ticks: {
+        min: 0,
+        max: 7
+      }
+    }
+  };
+
+  public colors: any = [
+    {
+      backgroundColor: "rgba(0, 100, 0, 0.4)"
+    },
+    {
+      backgroundColor: "rgba(65, 105, 225, 0.4)"
+    },
+    {
+      backgroundColor: "rgba(178, 34, 34, 0.4)"
+    }];
+
 
   public radarChartType: string = 'radar';
 
@@ -34,32 +54,32 @@ export class AppComponent {
 
   constructor(http: Http) {
     this.patientService = new PatientService(http);
-
-    this.loadCompletedMeasurementTools();
+    const patientId = this.getParameterByName('id');
+    this.loadCompletedMeasurementTools(patientId);
   }
 
-  private loadCompletedMeasurementTools(): void {
-    this.patientService.listCompletedMeasurementTools().subscribe((result: CompletedMeasurementTool[]) => {
+  private loadCompletedMeasurementTools(patientId: string): void {
+    this.patientService.listCompletedMeasurementTools(patientId, moment().subtract(365, 'days').toDate(), moment().toDate()).subscribe((result: CompletedMeasurementTool[]) => {
 
-      result.forEach((x) => {
-        console.log(x)
-      })
+      const measurmentToolName = result[0].measurementTool.name;
 
       this.radarChartLabels = Object.keys(result[0].scoreItems);
-      this.radarChartData = result.map((x) => {
-        return {
-          data: Object.keys(x.scoreItems).map((key) => x.scoreItems[key]),
-          label: 'aa'
-        };
-      });
+      this.radarChartData = result
+        .sort((a: CompletedMeasurementTool, b: CompletedMeasurementTool) => {
+          return a.endDate > b.endDate ? 1 : 0;
+        })
+        .filter((x) => x.measurementTool.name === measurmentToolName)
+        .slice(-3)
+        .map((x, i) => {
+          return {
+            data: Object.keys(x.scoreItems).map((key) => x.scoreItems[key]),
+            label: `${moment(x.startDate).format('YYYY-MM-DD')} - ${moment(x.endDate).format('YYYY-MM-DD')}`
+          };
+        });
 
       this.isInitialized = true;
     });
   }
-
-
-
-
 
   // events
   public chartClicked(e: any): void {
@@ -68,5 +88,15 @@ export class AppComponent {
 
   public chartHovered(e: any): void {
     console.log(e);
+  }
+
+  private getParameterByName(name) {
+    const url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 }
