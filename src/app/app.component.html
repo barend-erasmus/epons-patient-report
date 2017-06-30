@@ -1,5 +1,123 @@
-<div style="width: 50%" *ngIf="isInitialized">
-  <h3>{{title}}</h3>
-  <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"
-    [options]="options" [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="http://via.placeholder.com/150x150" class="img-thumbnail" alt="Profile Image">
+    </div>
+    <div class="col-sm-4">
+      <h2>Progress Report</h2>
+      <label>Start Date - End Date</label>
+      <h3>{{patient?.firstname}} {{patient?.lastname}}</h3>
+    </div>
+    <div class="col-sm-4">
+      <img src="http://via.placeholder.com/150x150" class="img-thumbnail" alt="Profile Image">
+    </div>
+  </div>
+  <div class="row padded">
+    <div class="col-sm-4">
+      <p>Date of Birth</p>
+      <p>Address</p>
+    </div>
+    <div class="col-sm-8">
+      <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}}</p>
+      <p>{{patient?.address?.street}}</p>
+      <p>{{patient?.address?.city?.name}}</p>
+      <p>{{patient?.address?.province?.name}}</p>
+      <p>{{patient?.address?.country?.name}}</p>
+      <p>{{patient?.address?.postalCode}}</p>
+    </div>
+  </div>
+  <div class="row padded">
+    <h4>Referring Doctors</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Contact Number</th>
+          <th>HPCSA Number</th>
+          <th>Practice Number</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
+    <h4>Treating Doctors</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Contact Number</th>
+          <th>HPCSA Number</th>
+          <th>Practice Number</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
+    <h4>Episodes of Care</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Facility</th>
+          <th>Onset Date</th>
+          <th>Admission Date</th>
+          <th>Discharge Date</th>
+          <th>ICD10 Code</th>
+          <th>Impairment Group</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
+    <h4>Diagnoses</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ICD10 Code</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
+    <h4>Measurement Tools</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Frequency</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
+    <h4>Case Manager Notes</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded" *ngIf="isInitialized">
+    <h3>Charts</h3>
+    <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="options"
+      [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+  </div>
 </div>

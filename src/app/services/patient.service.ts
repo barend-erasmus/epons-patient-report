@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 
 // Imports services
@@ -12,11 +12,15 @@ import { BaseService } from './base.service';
 import { CompletedMeasurementTool } from './../entity-views/completed-measurement-tool.model';
 import { MeasurementTool } from './../value-objects/measurement-tool.model';
 import { Patient } from './../entities/patient.model';
+import { PatientAddress } from './../models/patient-address.model';
+import { Country } from './../value-objects/country.model';
+import { City } from './../value-objects/city.model';
+import { Province } from './../value-objects/province.model';
 
 @Injectable()
 export class PatientService extends BaseService {
 
-  constructor(http: Http) { 
+  constructor(http: Http) {
     super(http);
   }
 
@@ -29,7 +33,15 @@ export class PatientService extends BaseService {
         return null;
       }
 
-      const result = new Patient(json.Id, json.Firstname, json.Lastname, json.IdentificationNumber);
+      console.log(json)
+
+      const result = new Patient(json.Id, json.Firstname, json.Lastname, json.IdentificationNumber, moment(json.DateOfBirth).toDate(), new PatientAddress(
+        json.Address.Country ? new Country(json.Address.Country.Id, json.Address.Country.Name) : null,
+        json.Address.Province ? new Province(json.Address.Province.Id, json.Address.Province.Name) : null,
+        json.Address.City ? new City(json.Address.City.Id, json.Address.City.Name) : null,
+        json.Address.Street,
+        json.Address.PostalCode
+      ));
 
       return result;
     });

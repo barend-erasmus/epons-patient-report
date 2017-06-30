@@ -49,7 +49,6 @@ export class AppComponent {
 
   public isInitialized: boolean = false;
 
-  public title: string = '';
   public patient: Patient = null;
 
   constructor(http: Http) {
@@ -64,7 +63,6 @@ export class AppComponent {
   private loadPatient(patientId: string, measurementToolName: string): void {
     this.patientService.findById(patientId).subscribe((result: Patient) => {
       this.patient = result;
-      this.title = `${this.patient.firstname} ${this.patient.lastname} - ${measurementToolName}`;
     });
   }
 
@@ -90,7 +88,7 @@ export class AppComponent {
         .map((x, i) => {
           return {
             data: Object.keys(x.scoreItems).map((key) => x.scoreItems[key]),
-            label: `${moment(x.startDate).format('YYYY-MM-DD')} - ${moment(x.endDate).format('YYYY-MM-DD')}`
+            label: `${moment(x.endDate).format('YYYY-MM-DD')}`
           };
         });
 
