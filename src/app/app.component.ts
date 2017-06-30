@@ -8,6 +8,7 @@ import { PatientService } from './services/patient.service';
 
 // Imports models
 import { CompletedMeasurementTool } from './entity-views/completed-measurement-tool.model';
+import { Patient } from './entities/patient.model';
 
 @Component({
   selector: 'app-root',
@@ -18,16 +19,12 @@ export class AppComponent {
 
   private patientService: PatientService = null;
 
-  public radarChartLabels: string[] = ['A', 'B', 'C'];
+  public radarChartLabels: string[] = [];
 
-  public radarChartData: Array<{ data: number[], label: string }> = [
-    {
-      data: [1, 2 ,3],
-      label: 'Demo'
-    }
-  ];
+  public radarChartData: Array<{ data: number[], label: string }> = [];
 
   public options: any = {
+    responsive: true,
     scale: {
       ticks: {
         min: 0,
@@ -52,24 +49,44 @@ export class AppComponent {
 
   public isInitialized: boolean = false;
 
+  public title: string = '';
+  public patient: Patient = null;
+
   constructor(http: Http) {
     this.patientService = new PatientService(http);
     const patientId = this.getParameterByName('id');
-    this.loadCompletedMeasurementTools(patientId);
+    const measurementToolName = this.getParameterByName('name');
+
+    this.loadCompletedMeasurementTools(patientId, measurementToolName);
+    this.loadPatient(patientId, measurementToolName);
   }
 
-  private loadCompletedMeasurementTools(patientId: string): void {
+  private loadPatient(patientId: string, measurementToolName: string): void {
+    this.patientService.findById(patientId).subscribe((result: Patient) => {
+      this.patient = result;
+      this.title = `${this.patient.firstname} ${this.patient.lastname} - ${measurementToolName}`;
+    });
+  }
+
+  private loadCompletedMeasurementTools(patientId: string, measurementToolName: string): void {
     this.patientService.listCompletedMeasurementTools(patientId, moment().subtract(365, 'days').toDate(), moment().toDate()).subscribe((result: CompletedMeasurementTool[]) => {
 
-      const measurmentToolName = result[0].measurementTool.name;
+      result = result
+        .filter((x) => x.measurementTool.name === measurementToolName)
+        .sort((a: CompletedMeasurementTool, b: CompletedMeasurementTool) => {
+          return a.endDate > b.endDate ? 1 : 0;
+        });
+
+      if (result.length === 0) {
+        return;
+      }
+
+      if (result.length > 3) {
+          result = result.slice(-3);
+      }
 
       this.radarChartLabels = Object.keys(result[0].scoreItems);
       this.radarChartData = result
-        .sort((a: CompletedMeasurementTool, b: CompletedMeasurementTool) => {
-          return a.endDate > b.endDate ? 1 : 0;
-        })
-        .filter((x) => x.measurementTool.name === measurmentToolName)
-        .slice(-3)
         .map((x, i) => {
           return {
             data: Object.keys(x.scoreItems).map((key) => x.scoreItems[key]),

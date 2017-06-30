@@ -11,6 +11,7 @@ import { BaseService } from './base.service';
 // Imports models
 import { CompletedMeasurementTool } from './../entity-views/completed-measurement-tool.model';
 import { MeasurementTool } from './../value-objects/measurement-tool.model';
+import { Patient } from './../entities/patient.model';
 
 @Injectable()
 export class PatientService extends BaseService {
@@ -19,12 +20,27 @@ export class PatientService extends BaseService {
     super(http);
   }
 
+  public findById(patientId: string): Observable<Patient> {
+    return this.get(`/api/Patient/FindById?id=${patientId}`).map((x) => {
+
+      const json: any = x.json();
+
+      if (!json) {
+        return null;
+      }
+
+      const result = new Patient(json.Id, json.Firstname, json.Lastname, json.IdentificationNumber);
+
+      return result;
+    });
+  }
+
   public listCompletedMeasurementTools(patientId: string, startDate: Date, endDate: Date): Observable<CompletedMeasurementTool[]> {
     return this.get(`/api/Patient/ListCompletedMeasurementTools?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`).map((x) => {
 
       const json: any[] = x.json();
 
-      const result = json.map((x) => new CompletedMeasurementTool(new MeasurementTool(x.MeasurementTool.Id, x.MeasurementTool.Name), moment(x.StartDate).toDate(), moment(x.EndDate).toDate(), x.ScoreItems))
+      const result = json.map((x) => new CompletedMeasurementTool(new MeasurementTool(x.MeasurementTool.Id, x.MeasurementTool.Name), moment(x.StartDate).toDate(), moment(x.EndDate).toDate(), x.ScoreItems));
 
       return result;
     });

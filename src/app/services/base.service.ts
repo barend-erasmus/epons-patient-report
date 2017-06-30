@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class BaseService {
 
-    private baseUri: string = 'http://localhost:4484'
+    private baseUri: string = 'http://api.sadfm.co.za'
 
     constructor(private http: Http) {
 
