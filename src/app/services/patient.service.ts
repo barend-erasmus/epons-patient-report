@@ -33,8 +33,6 @@ export class PatientService extends BaseService {
         return null;
       }
 
-      console.log(json)
-
       const result = new Patient(json.Id, json.Firstname, json.Lastname, json.IdentificationNumber, moment(json.DateOfBirth).toDate(), new PatientAddress(
         json.Address.Country ? new Country(json.Address.Country.Id, json.Address.Country.Name) : null,
         json.Address.Province ? new Province(json.Address.Province.Id, json.Address.Province.Name) : null,

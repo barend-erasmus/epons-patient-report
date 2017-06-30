@@ -5,7 +5,7 @@
     </div>
     <div class="col-sm-4">
       <h2>Progress Report</h2>
-      <label>Start Date - End Date</label>
+      <label>{{startDate | date:'yyyy-MM-dd'}} - {{endDate | date:'yyyy-MM-dd'}}</label>
       <h3>{{patient?.firstname}} {{patient?.lastname}}</h3>
     </div>
     <div class="col-sm-4">
@@ -115,9 +115,10 @@
       </tbody>
     </table>
   </div>
-  <div class="row padded" *ngIf="isInitialized">
+  <div class="row padded">
     <h3>Charts</h3>
-    <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="options"
-      [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+    <div *ngFor="let chart of charts">
+      <app-completed-measurement-tool [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
+    </div>
   </div>
 </div>
