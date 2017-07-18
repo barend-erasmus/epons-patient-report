@@ -12,6 +12,7 @@ export class BaseService {
 
     protected post(uri: string, obj: any): Observable<Response> {
         const headers = new Headers();
+        headers.append('apikey', '2c0d64c1-d002-45f2-9dc4-784c24e996');
 
         const jwtToken = localStorage.getItem('jwt.token');
 
@@ -26,6 +27,7 @@ export class BaseService {
 
     protected get(uri: string): Observable<Response> {
         const headers = new Headers();
+        headers.append('apikey', '2c0d64c1-d002-45f2-9dc4-784c24e996');
 
         const jwtToken = localStorage.getItem('jwt.token');
 
