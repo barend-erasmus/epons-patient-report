@@ -11,6 +11,8 @@ import { BaseService } from './base.service';
 // Imports models
 import { EpisodeOfCare } from './../entity-views/episode-of-care.model';
 import { Facility } from './../value-objects/facility.model';
+import { Diagnoses } from './../value-objects/diagnoses.model';
+import { ImpairmentGroup } from './../value-objects/impairment-group.model';
 
 @Injectable()
 export class EpisodeOfCareService extends BaseService {
@@ -29,6 +31,9 @@ export class EpisodeOfCareService extends BaseService {
           x.uniqueHospitalNumber,
           moment(x.AdmissionTimestamp).toDate(),
           moment(x.DischargeTimestamp).toDate(),
+          moment(x.OnsetTimestamp).toDate(),
+          x.Diagnoses === null? null : new Diagnoses(x.Diagnoses.Id, x.Diagnoses.Name),
+          x.ImpairmentGroup === null? null : new ImpairmentGroup(x.ImpairmentGroup.Id, x.ImpairmentGroup.Name),
           null,
           null
       ));
