@@ -5,10 +5,13 @@ import * as moment from 'moment';
 
 // Imports services
 import { PatientService } from './services/patient.service';
+import { VisitService } from './services/visit.service';
+import { EpisodeOfCareService } from './services/episodeOfCare.service';
 
 // Imports models
 import { CompletedMeasurementTool } from './entity-views/completed-measurement-tool.model';
 import { Patient } from './entities/patient.model';
+import { EpisodeOfCare } from './entity-views/episode-of-care.model';
 
 @Component({
   selector: 'app-root',
@@ -18,20 +21,27 @@ import { Patient } from './entities/patient.model';
 export class AppComponent {
 
   private patientService: PatientService = null;
+  private episodeOfCareService: EpisodeOfCareService = null;
+  private visitService: VisitService = null;
 
   public patient: Patient = null;
 
   public charts: Array<{ name: string, data: CompletedMeasurementTool[] }> = [];
+
+  public episodeOfCares: EpisodeOfCare[] = [];
 
   public startDate: Date = moment().subtract(365, 'days').toDate();
   public endDate: Date = moment().toDate();
 
   constructor(http: Http) {
     this.patientService = new PatientService(http);
+    this.episodeOfCareService = new EpisodeOfCareService(http);
+    this.visitService = new VisitService(http);
     const patientId = this.getParameterByName('id');
 
     this.loadCompletedMeasurementTools(patientId);
     this.loadPatient(patientId);
+    this.loadEpisodeOfCares(patientId);
   }
 
   private loadPatient(patientId: string): void {
@@ -41,7 +51,7 @@ export class AppComponent {
   }
 
   private loadCompletedMeasurementTools(patientId: string): void {
-    this.patientService.listCompletedMeasurementTools(patientId, this.startDate, this.endDate).subscribe((result: CompletedMeasurementTool[]) => {
+    this.visitService.listCompletedMeasurementTools(patientId, this.startDate, this.endDate).subscribe((result: CompletedMeasurementTool[]) => {
 
       const measurementTools: string[] = result.map((x) => x.measurementTool.name).filter((value, index, self) => {
         return self.indexOf(value) === index;
@@ -56,6 +66,12 @@ export class AppComponent {
           data: data
         });
       });
+    });
+  }
+
+  private loadEpisodeOfCares(patientId: string): void {
+    this.episodeOfCareService.list(patientId).subscribe((result: EpisodeOfCare[]) => {
+        this.episodeOfCares = result;
     });
   }
 

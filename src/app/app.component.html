@@ -72,6 +72,14 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let episodeOfCare of episodeOfCares">
+          <td>{{episodeOfCare.facility?.name}}</td>
+          <td>{{episodeOfCare.onsetTimestamp| date: 'yyyy-MM-dd'}}</td>
+          <td>{{episodeOfCare.admissionTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
+          <td>{{episodeOfCare.dischargeTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
+          <td>ICD10 Code</td>
+          <td>Impairment Group</td>
+        </tr>
       </tbody>
     </table>
   </div>
