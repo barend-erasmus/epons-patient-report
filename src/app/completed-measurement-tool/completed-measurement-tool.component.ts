@@ -12,7 +12,7 @@ import { CompletedMeasurementTool } from './../entity-views/completed-measuremen
 })
 export class CompletedMeasurementToolComponent implements OnChanges {
 
-  public radarChartLabels: string[] = [];
+  public radarChartLabels: string[][] = [];
 
   public radarChartData: Array<{ data: number[], label: string }> = [];
 
@@ -73,7 +73,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
       tempData = tempData.slice(-3);
     }
 
-    this.radarChartLabels = Object.keys(tempData[0].scoreItems);
+    this.radarChartLabels = Object.keys(tempData[0].scoreItems).map((x) => this.wordWrap(x));
     this.radarChartData = tempData
       .map((x, i) => {
         return {
@@ -81,6 +81,12 @@ export class CompletedMeasurementToolComponent implements OnChanges {
           label: `${moment(x.endDate).format('YYYY-MM-DD')}`
         };
       });
+
+    if (this.name === 'APOM') {
+      this.options.scale.ticks.max = 18;
+    } else {
+      this.options.scale.ticks.max = 7;
+    }
 
     this.isInitialized = true;
   }
@@ -93,4 +99,18 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     console.log(e);
   }
 
+  private wordWrap(str: string): string[] {
+
+    let workingStr = str;
+    const newStr = [];
+
+    while(workingStr.length > 20) {
+      newStr.push(workingStr.slice(0, 20));
+      workingStr = workingStr.slice(20)
+    }
+
+    newStr.push(workingStr);
+
+    return newStr;
+  }
 }
