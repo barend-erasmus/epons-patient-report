@@ -5,7 +5,7 @@
     </div>
     <div class="col-sm-4">
       <h2>Progress Report</h2>
-      <label>{{startDate | date:'yyyy-MM-dd'}} - {{endDate | date:'yyyy-MM-dd'}}</label>
+      <label>{{startDate | date:'dd MMMM yyyy'}} to {{endDate | date:'dd MMMM yyyy'}}</label>
       <h3>{{patient?.firstname}} {{patient?.lastname}}</h3>
     </div>
     <div class="col-sm-4">
@@ -14,16 +14,13 @@
   </div>
   <div class="row padded">
     <div class="col-sm-4">
-      <p>Date of Birth</p>
+      <p>&nbsp;</p>
       <p>Address</p>
     </div>
     <div class="col-sm-8">
-      <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}}</p>
-      <p>{{patient?.address?.street}}</p>
-      <p>{{patient?.address?.city?.name}}</p>
-      <p>{{patient?.address?.province?.name}}</p>
-      <p>{{patient?.address?.country?.name}}</p>
-      <p>{{patient?.address?.postalCode}}</p>
+      <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}} (Age XX)</p>
+      <p>{{patient?.address?.street}}, {{patient?.address?.city?.name}}, {{patient?.address?.province?.name}}, {{patient?.address?.country?.name}},
+        {{patient?.address?.postalCode}}</p>
     </div>
   </div>
   <div class="row padded">
@@ -72,7 +69,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let episodeOfCare of episodeOfCares">
+        <tr *ngFor="let episodeOfCare of episodeOfCares" class="{{episodeOfCare.dischargeTimestamp? '' : 'text-danger'}}">
           <td>{{episodeOfCare.facility?.name}}</td>
           <td>{{episodeOfCare.onsetTimestamp| date: 'yyyy-MM-dd'}}</td>
           <td>{{episodeOfCare.admissionTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
@@ -125,6 +122,9 @@
   </div>
   <div class="row padded">
     <h3>Charts</h3>
+    <div>
+      <app-vital-signs [data]="visits"></app-vital-signs>
+    </div>
     <div *ngFor="let chart of charts">
       <app-completed-measurement-tool [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
     </div>

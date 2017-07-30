@@ -6,11 +6,13 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { AppComponent } from './app.component';
 import { CompletedMeasurementToolComponent } from './completed-measurement-tool/completed-measurement-tool.component';
+import { VitalSignsComponent } from './vital-signs/vital-signs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CompletedMeasurementToolComponent
+    CompletedMeasurementToolComponent,
+    VitalSignsComponent
   ],
   imports: [
     BrowserModule,

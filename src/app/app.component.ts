@@ -10,6 +10,7 @@ import { EpisodeOfCareService } from './services/episodeOfCare.service';
 
 // Imports models
 import { CompletedMeasurementTool } from './entity-views/completed-measurement-tool.model';
+import { Visit } from './entity-views/visit.model';
 import { Patient } from './entities/patient.model';
 import { EpisodeOfCare } from './entity-views/episode-of-care.model';
 
@@ -25,10 +26,10 @@ export class AppComponent {
   private visitService: VisitService = null;
 
   public patient: Patient = null;
+  public episodeOfCares: EpisodeOfCare[] = [];
+  public visits: Visit[] = [];
 
   public charts: Array<{ name: string, data: CompletedMeasurementTool[] }> = [];
-
-  public episodeOfCares: EpisodeOfCare[] = [];
 
   public startDate: Date = moment().subtract(365, 'days').toDate();
   public endDate: Date = moment().toDate();
@@ -41,6 +42,7 @@ export class AppComponent {
 
     this.loadCompletedMeasurementTools(patientId);
     this.loadPatient(patientId);
+    this.loadVisits(patientId);
     this.loadEpisodeOfCares(patientId);
   }
 
@@ -66,6 +68,12 @@ export class AppComponent {
           data: data
         });
       });
+    });
+  }
+
+  private loadVisits(patientId: string): void {
+    this.visitService.list(patientId, this.startDate, this.endDate).subscribe((result: Visit[]) => {
+        this.visits = result;
     });
   }
 
