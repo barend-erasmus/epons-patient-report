@@ -121,11 +121,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let measurementTool of measurementTools">
-          <th>Name</th>
-          <th>Frequency</th>
-          <th>{{measurementTool.assignedTimestamp | date: 'yyyy-MM-dd'}}</th>
-          <th>{{measurementTool.deassignedTimestamp | date: 'yyyy-MM-dd'}}</th>
+        <tr *ngFor="let measurementTool of measurementTools" class="{{measurementTool.deassignedTimestamp? '' : 'text-danger'}}">
+          <td>{{measurementTool.measurementTool.name}}</td>
+          <td>{{measurementTool.frequency.name}}</td>
+          <td>{{measurementTool.assignedTimestamp | date: 'yyyy-MM-dd'}}</td>
+          <td>{{measurementTool.deassignedTimestamp | date: 'yyyy-MM-dd'}}</td>
         </tr>
       </tbody>
     </table>

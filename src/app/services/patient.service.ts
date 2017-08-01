@@ -15,6 +15,8 @@ import { PatientAddress } from './../models/patient-address.model';
 import { Country } from './../value-objects/country.model';
 import { City } from './../value-objects/city.model';
 import { Province } from './../value-objects/province.model';
+import { MeasurementTool } from './../value-objects/measurement-tool.model';
+import { Frequency } from './../value-objects/frequency.model';
 
 @Injectable()
 export class PatientService extends BaseService {
@@ -49,7 +51,12 @@ export class PatientService extends BaseService {
 
       const json: any[] = x.json();
 
-      const result = json.map((x) => new PatientMeasurementTool(moment(x.AssignedTimestamp).toDate(), x.DeassignedTimestamp? moment(x.DeassignedTimestamp).toDate() : null))
+      const result = json.map((x) => new PatientMeasurementTool(
+        moment(x.AssignedTimestamp).toDate(),
+        x.DeassignedTimestamp ? moment(x.DeassignedTimestamp).toDate() : null,
+        new MeasurementTool(x.MeasurementTool.Id, x.MeasurementTool.Name),
+        new Frequency(x.Frequency.Id, x.Frequency.Name)
+      ));
 
       return result;
     });
