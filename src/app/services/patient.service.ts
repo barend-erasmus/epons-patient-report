@@ -10,6 +10,7 @@ import { BaseService } from './base.service';
 
 // Imports models
 import { Patient } from './../entities/patient.model';
+import { PatientMeasurementTool } from './../entity-views/patient-measurement-tool.model';
 import { PatientAddress } from './../models/patient-address.model';
 import { Country } from './../value-objects/country.model';
 import { City } from './../value-objects/city.model';
@@ -38,6 +39,17 @@ export class PatientService extends BaseService {
         json.Address.Street,
         json.Address.PostalCode
       ));
+
+      return result;
+    });
+  }
+
+  public listMeasurementTools(patientId: string): Observable<PatientMeasurementTool[]> {
+    return this.get(`/api/Patient/ListMeasurementTools?id=${patientId}`).map((x) => {
+
+      const json: any[] = x.json();
+
+      const result = json.map((x) => new PatientMeasurementTool(moment(x.AssignedTimestamp).toDate(), x.DeassignedTimestamp? moment(x.DeassignedTimestamp).toDate() : null))
 
       return result;
     });

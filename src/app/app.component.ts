@@ -11,8 +11,10 @@ import { EpisodeOfCareService } from './services/episodeOfCare.service';
 // Imports models
 import { CompletedMeasurementTool } from './entity-views/completed-measurement-tool.model';
 import { Visit } from './entity-views/visit.model';
+import { PatientMeasurementTool } from './entity-views/patient-measurement-tool.model';
 import { Patient } from './entities/patient.model';
 import { Doctor } from './entity-views/doctor.model';
+import { Diagnoses } from './value-objects/diagnoses.model';
 import { EpisodeOfCare } from './entity-views/episode-of-care.model';
 
 @Component({
@@ -28,9 +30,11 @@ export class AppComponent {
 
   public patient: Patient = null;
   public episodeOfCares: EpisodeOfCare[] = [];
+  public diagnoses: Diagnoses[] = [];
   public visits: Visit[] = [];
   public referringDoctors: Doctor[] = [];
   public treatingDoctors: Doctor[] = [];
+  public measurementTools: PatientMeasurementTool[] = [];
 
   public charts: Array<{ name: string, data: CompletedMeasurementTool[] }> = [];
 
@@ -49,6 +53,8 @@ export class AppComponent {
     this.loadEpisodeOfCares(patientId);
     this.loadReferringDoctors(patientId);
     this.loadTreatingDoctors(patientId);
+    this.loadDiagnoses(patientId);
+    this.loadMeasurementTools(patientId);
   }
 
   private loadPatient(patientId: string): void {
@@ -85,6 +91,18 @@ export class AppComponent {
   private loadEpisodeOfCares(patientId: string): void {
     this.episodeOfCareService.list(patientId).subscribe((result: EpisodeOfCare[]) => {
       this.episodeOfCares = result;
+    });
+  }
+
+  private loadMeasurementTools(patientId: string): void {
+    this.patientService.listMeasurementTools(patientId).subscribe((result: PatientMeasurementTool[]) => {
+      this.measurementTools = result;
+    });
+  }
+
+  private loadDiagnoses(patientId: string): void {
+    this.episodeOfCareService.listDiagnoses(patientId).subscribe((result: Diagnoses[]) => {
+      this.diagnoses = result;
     });
   }
 

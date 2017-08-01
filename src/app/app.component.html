@@ -85,7 +85,7 @@
       <tbody>
         <tr *ngFor="let episodeOfCare of episodeOfCares" class="{{episodeOfCare.dischargeTimestamp? '' : 'text-danger'}}">
           <td>{{episodeOfCare.facility?.name}}</td>
-          <td>{{episodeOfCare.onsetTimestamp| date: 'yyyy-MM-dd'}}</td>
+          <td>{{episodeOfCare.onsetTimestamp | date: 'yyyy-MM-dd'}}</td>
           <td>{{episodeOfCare.admissionTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
           <td>{{episodeOfCare.dischargeTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
           <td>{{episodeOfCare.diagnoses?.name}}</td>
@@ -103,6 +103,9 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let item of diagnoses">
+          <td>{{item.name}}</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -113,11 +116,17 @@
         <tr>
           <th>Name</th>
           <th>Frequency</th>
-          <th>Start Date</th>
-          <th>End Date</th>
+          <th>Assigned Timestamp</th>
+          <th>Deassigned Timestamp</th>
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let measurementTool of measurementTools">
+          <th>Name</th>
+          <th>Frequency</th>
+          <th>{{measurementTool.assignedTimestamp | date: 'yyyy-MM-dd'}}</th>
+          <th>{{measurementTool.deassignedTimestamp | date: 'yyyy-MM-dd'}}</th>
+        </tr>
       </tbody>
     </table>
   </div>

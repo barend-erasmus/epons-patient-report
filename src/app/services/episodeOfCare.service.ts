@@ -44,6 +44,20 @@ export class EpisodeOfCareService extends BaseService {
     });
   }
 
+  public listDiagnoses(patientId: string): Observable<Diagnoses[]> {
+    return this.get(`/api/EpisodeOfCare/ListDiagnoses?patientId=${patientId}`).map((x) => {
+
+      const json: any[] = x.json();
+
+      const result = json.map((x) => new Diagnoses(
+        x.Id,
+        x.Name
+      ));
+
+      return result;
+    });
+  }
+
   public listReferringDoctors(patientId: string): Observable<Doctor[]> {
     return this.get(`/api/EpisodeOfCare/ListReferringDoctors?patientId=${patientId}`).map((x) => {
 
