@@ -18,7 +18,7 @@
       <p>Address</p>
     </div>
     <div class="col-sm-8">
-      <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}} (Age XX)</p>
+      <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}} (Age {{patient?.age}})</p>
       <p>{{patient?.address?.street}}, {{patient?.address?.city?.name}}, {{patient?.address?.province?.name}}, {{patient?.address?.country?.name}},
         {{patient?.address?.postalCode}}</p>
     </div>
@@ -36,6 +36,13 @@
         </tr>
       </thead>
       <tbody>
+        <tr  *ngFor="let doctor of referringDoctors">
+          <td>{{doctor.fullname}}</td>
+          <td>{{doctor.contactDetails.emailAddress}}</td>
+          <td>{{doctor.contactDetails.contactNumber}}</td>
+          <td>{{doctor.hpcsaNumber}}</td>
+          <td>{{doctor.practiceNumber}}</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -52,6 +59,13 @@
         </tr>
       </thead>
       <tbody>
+        <tr  *ngFor="let doctor of treatingDoctors">
+          <td>{{doctor.fullname}}</td>
+          <td>{{doctor.contactDetails.emailAddress}}</td>
+          <td>{{doctor.contactDetails.contactNumber}}</td>
+          <td>{{doctor.hpcsaNumber}}</td>
+          <td>{{doctor.practiceNumber}}</td>
+        </tr>
       </tbody>
     </table>
   </div>

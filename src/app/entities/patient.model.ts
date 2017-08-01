@@ -2,6 +2,9 @@
 import { PatientAddress } from './../models/patient-address.model'
 
 export class Patient {
+
+    public age: number;
+
     constructor(
         public id: string,
         public firstname: string,
@@ -10,6 +13,12 @@ export class Patient {
         public dateOfBirth: Date,
         public address: PatientAddress
     ) {
+        this.calculateAge();
+    }
 
+    private calculateAge(): void {
+        const ageDifMs = Date.now() - this.dateOfBirth.getTime();
+        const ageDate = new Date(ageDifMs);
+        this.age = Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 }
