@@ -1,23 +1,23 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-xs-4">
       <img src="{{patient?.avatar? patient?.avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail" alt="Profile Image">
     </div>
-    <div class="col-sm-4">
+    <div class="col-xs-4">
       <h2>Progress Report</h2>
       <label>{{startDate | date:'dd MMMM yyyy'}} to {{endDate | date:'dd MMMM yyyy'}}</label>
       <h3>{{patient?.firstname}} {{patient?.lastname}}</h3>
     </div>
-    <div class="col-sm-4">
+    <div class="col-xs-4">
       <img src="http://via.placeholder.com/150x150" class="img-thumbnail" alt="Profile Image">
     </div>
   </div>
   <div class="row padded">
-    <div class="col-sm-4">
+    <div class="col-xs-4">
       <p>&nbsp;</p>
       <p>Address</p>
     </div>
-    <div class="col-sm-8">
+    <div class="col-xs-8">
       <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}} (Age {{patient?.age}})</p>
       <p>{{patient?.address?.street}}, {{patient?.address?.city?.name}}, {{patient?.address?.province?.name}}, {{patient?.address?.country?.name}},
         {{patient?.address?.postalCode}}</p>
