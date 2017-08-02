@@ -43,6 +43,8 @@ export class AppComponent {
   public startDate: Date = moment().subtract(365, 'days').toDate();
   public endDate: Date = moment().toDate();
 
+  public busyDownloading: boolean = false;
+
   constructor(private http: Http, private el: ElementRef) {
     this.patientService = new PatientService(http);
     this.episodeOfCareService = new EpisodeOfCareService(http);
@@ -57,24 +59,20 @@ export class AppComponent {
     this.loadTreatingDoctors(patientId);
     this.loadDiagnoses(patientId);
     this.loadMeasurementTools(patientId);
+  }
 
-    // setTimeout(() => {
-    //   const canvasElements = el.nativeElement.querySelectorAll('canvas');
+  public download(): void {
+    const canvasElements = this.el.nativeElement.querySelectorAll('canvas');
 
-    //   let html: string = this.el.nativeElement.innerHTML;
+    let html: string = this.el.nativeElement.innerHTML;
 
+    html = html.replace(/<button[^>]*name="download"[^>]*>(.*?)<\/button>/, '');
 
-    //   for (const cv of canvasElements) {
-    //      html = html.replace(/<canvas[^>]*>(.*?)<\/canvas>/, `<img src="${cv.toDataURL()}"></img>`);
-    //   }
+    for (const cv of canvasElements) {
+      html = html.replace(/<canvas[^>]*>([.|\n]*?)<\/canvas>/, `<img src="${cv.toDataURL()}"></img>`);
+    }
 
-    //   console.log(html)
-
-
-    //   this.export(html);
-    // }, 3000);
-
-
+    this.export(html);
   }
 
   private loadPatient(patientId: string): void {
@@ -148,17 +146,20 @@ export class AppComponent {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
-  public export(html: string): void {
+  private export(html: string): void {
+    this.busyDownloading = true;
+
     this.http.get(`https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css`).map(res => res.text())
       .subscribe(data1 => {
         let pageStyle = `<style>${data1}</style>`;
 
-        this.http.post(`http://html-converter.openservices.co.za/api/convert/topdf?`, {
-          html: `${pageStyle}${this.el.nativeElement.innerHTML}`
+        this.http.post(`https://html-converter.openservices.co.za/api/convert/topdf?`, {
+          html: `${pageStyle}${html}`
         }, { responseType: ResponseContentType.Blob })
           .map(res => res.blob())
           .subscribe(data2 => {
-            FileSaver.saveAs(data2, 'Test.pdf');
+            FileSaver.saveAs(data2, `PPR_${this.patient.firstname}_${this.patient.lastname}.pdf`);
+            this.busyDownloading = false;
           });
       });
   }

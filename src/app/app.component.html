@@ -10,6 +10,7 @@
     </div>
     <div class="col-xs-4">
       <img src="http://via.placeholder.com/150x150" class="img-thumbnail" alt="Profile Image">
+      <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download'}}</button>
     </div>
   </div>
   <div class="row padded">
