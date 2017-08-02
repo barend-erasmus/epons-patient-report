@@ -40,7 +40,7 @@ export class PatientService extends BaseService {
         json.Address.City ? new City(json.Address.City.Id, json.Address.City.Name) : null,
         json.Address.Street,
         json.Address.PostalCode
-      ));
+      ), json.Avatar);
 
       return result;
     });

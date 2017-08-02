@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-4">
-      <img src="http://via.placeholder.com/150x150" class="img-thumbnail" alt="Profile Image">
+      <img src="{{patient?.avatar? patient?.avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail" alt="Profile Image">
     </div>
     <div class="col-sm-4">
       <h2>Progress Report</h2>
@@ -28,7 +28,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Name</th>
+          <th></th>
           <th>Email Address</th>
           <th>Contact Number</th>
           <th>HPCSA Number</th>
@@ -51,7 +51,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Name</th>
+          <th></th>
           <th>Email Address</th>
           <th>Contact Number</th>
           <th>HPCSA Number</th>
@@ -114,7 +114,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Name</th>
+          <th></th>
           <th>Frequency</th>
           <th>Assigned Timestamp</th>
           <th>Deassigned Timestamp</th>
@@ -131,12 +131,41 @@
     </table>
   </div>
   <div class="row padded">
+    <h4>Multidisciplinary Team</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Clinician</th>
+          <th>Position</th>
+          <th>Assigned Timestamp</th>
+          <th>Deassigned Timestamp</th>
+          <th>Facility</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
     <h4>Case Manager Notes</h4>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Timestamp</th>
           <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="row padded">
+    <h4>Support Services</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Support Services</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>

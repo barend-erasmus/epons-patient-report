@@ -11,7 +11,8 @@ export class Patient {
         public lastname: string,
         public identificationNumber: string,
         public dateOfBirth: Date,
-        public address: PatientAddress
+        public address: PatientAddress,
+        public avatar: string
     ) {
         this.calculateAge();
     }
