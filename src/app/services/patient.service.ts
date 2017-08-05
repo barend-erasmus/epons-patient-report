@@ -11,9 +11,11 @@ import { BaseService } from './base.service';
 // Imports models
 import { Patient } from './../entities/patient.model';
 import { PatientMeasurementTool } from './../entity-views/patient-measurement-tool.model';
+import { PatientSupportService } from './../models/patient-support-service.model';
 import { PatientAddress } from './../models/patient-address.model';
 import { Country } from './../value-objects/country.model';
 import { City } from './../value-objects/city.model';
+import { SupportService } from './../value-objects/support-service.model';
 import { Province } from './../value-objects/province.model';
 import { MeasurementTool } from './../value-objects/measurement-tool.model';
 import { Frequency } from './../value-objects/frequency.model';
@@ -40,7 +42,8 @@ export class PatientService extends BaseService {
         json.Address.City ? new City(json.Address.City.Id, json.Address.City.Name) : null,
         json.Address.Street,
         json.Address.PostalCode
-      ), json.Avatar);
+      ), json.Avatar,
+        json.SupportServices.map((x) => new PatientSupportService(new SupportService(x.SupportService.Id, x.SupportService.Name), x.Text)));
 
       return result;
     });

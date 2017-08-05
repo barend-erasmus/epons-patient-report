@@ -170,6 +170,10 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let supportService of patient?.supportServices">
+          <td>{{supportService.supportService.name}}</td>
+          <td>{{supportService.text}}</td>
+        </tr>
       </tbody>
     </table>
   </div>

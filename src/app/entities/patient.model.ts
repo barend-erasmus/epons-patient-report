@@ -1,5 +1,6 @@
 // Imports models
-import { PatientAddress } from './../models/patient-address.model'
+import { PatientAddress } from './../models/patient-address.model';
+import { PatientSupportService } from './../models/patient-support-service.model';
 
 export class Patient {
 
@@ -12,7 +13,8 @@ export class Patient {
         public identificationNumber: string,
         public dateOfBirth: Date,
         public address: PatientAddress,
-        public avatar: string
+        public avatar: string,
+        public supportServices: PatientSupportService[]
     ) {
         this.calculateAge();
     }
