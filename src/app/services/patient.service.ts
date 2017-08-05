@@ -49,8 +49,8 @@ export class PatientService extends BaseService {
     });
   }
 
-  public listMeasurementTools(patientId: string): Observable<PatientMeasurementTool[]> {
-    return this.get(`/api/Patient/ListMeasurementTools?id=${patientId}`).map((x) => {
+  public listMeasurementTools(patientId: string, startDate: Date, endDate: Date): Observable<PatientMeasurementTool[]> {
+    return this.get(`/api/Patient/ListMeasurementTools?id=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`).map((x) => {
 
       const json: any[] = x.json();
 

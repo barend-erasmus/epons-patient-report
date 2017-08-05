@@ -23,8 +23,8 @@ export class EpisodeOfCareService extends BaseService {
     super(http);
   }
 
-  public list(patientId: string): Observable<EpisodeOfCare[]> {
-    return this.get(`/api/EpisodeOfCare/List?patientId=${patientId}`).map((x) => {
+  public list(patientId: string, startDate: Date, endDate: Date): Observable<EpisodeOfCare[]> {
+    return this.get(`/api/EpisodeOfCare/List?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`).map((x) => {
 
       const json: any[] = x.json();
 
@@ -44,8 +44,8 @@ export class EpisodeOfCareService extends BaseService {
     });
   }
 
-  public listDiagnoses(patientId: string): Observable<Diagnoses[]> {
-    return this.get(`/api/EpisodeOfCare/ListDiagnoses?patientId=${patientId}`).map((x) => {
+  public listDiagnoses(patientId: string, startDate: Date, endDate: Date): Observable<Diagnoses[]> {
+    return this.get(`/api/EpisodeOfCare/ListDiagnoses?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`).map((x) => {
 
       const json: any[] = x.json();
 

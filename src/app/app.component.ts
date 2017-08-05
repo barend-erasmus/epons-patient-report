@@ -8,6 +8,7 @@ import * as FileSaver from 'file-saver';
 // Imports services
 import { PatientService } from './services/patient.service';
 import { VisitService } from './services/visit.service';
+import { TeamMemberService } from './services/team-member.service';
 import { EpisodeOfCareService } from './services/episodeOfCare.service';
 
 // Imports models
@@ -18,6 +19,7 @@ import { Patient } from './entities/patient.model';
 import { Doctor } from './entity-views/doctor.model';
 import { Diagnoses } from './value-objects/diagnoses.model';
 import { EpisodeOfCare } from './entity-views/episode-of-care.model';
+import { TeamMember } from './entity-views/team-member.model';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +31,7 @@ export class AppComponent {
   private patientService: PatientService = null;
   private episodeOfCareService: EpisodeOfCareService = null;
   private visitService: VisitService = null;
+  private teamMemberService: TeamMemberService = null;
 
   public patient: Patient = null;
   public episodeOfCares: EpisodeOfCare[] = [];
@@ -37,6 +40,7 @@ export class AppComponent {
   public referringDoctors: Doctor[] = [];
   public treatingDoctors: Doctor[] = [];
   public measurementTools: PatientMeasurementTool[] = [];
+  public teamMembers: TeamMember[] = [];
 
   public charts: Array<{ name: string, data: CompletedMeasurementTool[] }> = [];
 
@@ -49,6 +53,8 @@ export class AppComponent {
     this.patientService = new PatientService(http);
     this.episodeOfCareService = new EpisodeOfCareService(http);
     this.visitService = new VisitService(http);
+    this.teamMemberService = new TeamMemberService(http);
+
     const patientId = this.getParameterByName('id');
 
     this.loadCompletedMeasurementTools(patientId);
@@ -59,6 +65,7 @@ export class AppComponent {
     this.loadTreatingDoctors(patientId);
     this.loadDiagnoses(patientId);
     this.loadMeasurementTools(patientId);
+    this.loadTeamMembers(patientId);
   }
 
   public download(): void {
@@ -79,6 +86,12 @@ export class AppComponent {
     this.patientService.findById(patientId).subscribe((result: Patient) => {
       this.patient = result;
     });
+  }
+
+  private loadTeamMembers(patientId: string): void {
+    this.teamMemberService.list(patientId, this.startDate, this.endDate).subscribe((result: TeamMember[]) => {
+      this.teamMembers = result;
+    })
   }
 
   private loadCompletedMeasurementTools(patientId: string): void {
@@ -107,19 +120,19 @@ export class AppComponent {
   }
 
   private loadEpisodeOfCares(patientId: string): void {
-    this.episodeOfCareService.list(patientId).subscribe((result: EpisodeOfCare[]) => {
+    this.episodeOfCareService.list(patientId, this.startDate, this.endDate).subscribe((result: EpisodeOfCare[]) => {
       this.episodeOfCares = result;
     });
   }
 
   private loadMeasurementTools(patientId: string): void {
-    this.patientService.listMeasurementTools(patientId).subscribe((result: PatientMeasurementTool[]) => {
+    this.patientService.listMeasurementTools(patientId, this.startDate, this.endDate).subscribe((result: PatientMeasurementTool[]) => {
       this.measurementTools = result;
     });
   }
 
   private loadDiagnoses(patientId: string): void {
-    this.episodeOfCareService.listDiagnoses(patientId).subscribe((result: Diagnoses[]) => {
+    this.episodeOfCareService.listDiagnoses(patientId, this.startDate, this.endDate).subscribe((result: Diagnoses[]) => {
       this.diagnoses = result;
     });
   }

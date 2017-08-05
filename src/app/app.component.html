@@ -144,6 +144,13 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let teamMember of teamMembers" class="{{teamMember.deallocationTimestamp? '' : 'text-danger'}}">
+          <th>{{teamMember.user.fullname}}</th>
+          <th>{{teamMember.user.position?.name}}</th>
+          <th>{{teamMember.allocationTimestamp | date: 'yyyy-MM-dd'}}</th>
+          <th>{{teamMember.deallocationTimestamp | date: 'yyyy-MM-dd'}}</th>
+          <th>{{teamMember.facility?.name}}</th>
+        </tr>
       </tbody>
     </table>
   </div>
