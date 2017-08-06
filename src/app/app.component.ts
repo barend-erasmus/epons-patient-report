@@ -30,7 +30,7 @@ export class AppComponent {
   public referringDoctors: any[] = [];
 
   public visits: any[] = [];
-  
+  public caseManagerNotes: any[] = [];
 
   public charts: Array<{ name: string, data: any[] }> = [];
 
@@ -94,14 +94,24 @@ export class AppComponent {
   private loadVisits(patientId: string): void {
     this.visitService.list(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
       this.visits = result;
+      this.caseManagerNotes = result;
+
+      this.caseManagerNotes = this.caseManagerNotes.map((visit) => {
+        visit.ProgressNotes = visit.ProgressNotes? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
+
+        return visit;
+      });
+
+      this.caseManagerNotes = this.caseManagerNotes.filter((note) => note.ProgressNotes);
+      console.log(this.caseManagerNotes);
     });
   }
 
   private loadEpisodeOfCares(patientId: string): void {
     this.episodeOfCareService.list(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
       this.episodeOfCares = result;
-      this.diagnoses = result.filter((x) => x.Diagnoses).map((x) => x.Diagnoses); 
-      this.treatingDoctors = result.filter((x) => x.TreatingDoctor).map((x) => x.TreatingDoctor); 
+      this.diagnoses = result.filter((x) => x.Diagnoses).map((x) => x.Diagnoses);
+      this.treatingDoctors = result.filter((x) => x.TreatingDoctor).map((x) => x.TreatingDoctor);
       this.referringDoctors = result.filter((x) => x.ReferringDoctor).map((x) => x.ReferringDoctor);
     });
   }
@@ -128,7 +138,7 @@ export class AppComponent {
         }, { responseType: ResponseContentType.Blob })
           .map(res => res.blob())
           .subscribe(data2 => {
-            FileSaver.saveAs(data2, `PPR_${this.patient.firstname}_${this.patient.lastname}.pdf`);
+            FileSaver.saveAs(data2, `PPR_${this.patient.Firstname}_${this.patient.Lastname}.pdf`);
             this.busyDownloading = false;
           });
       });

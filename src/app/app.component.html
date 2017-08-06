@@ -164,6 +164,16 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngFor="let note of caseManagerNotes">
+          <td>
+            {{note.Timestamp | date: 'yyyy-MM-dd HH:mm'}}
+            <br />
+            {{note.User.Fullname}}
+            <br />
+            {{note.Duration}} minutes
+          </td>
+          <td [innerHTML]="note.ProgressNotes"></td>
+        </tr>
       </tbody>
     </table>
   </div>
