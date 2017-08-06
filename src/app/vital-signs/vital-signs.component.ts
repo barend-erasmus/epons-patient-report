@@ -2,9 +2,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import * as moment from 'moment';
 
-// Imports models
-import { Visit } from './../entity-views/visit.model';
-
 @Component({
   selector: 'app-vital-signs',
   templateUrl: './vital-signs.component.html',
@@ -31,7 +28,7 @@ export class VitalSignsComponent implements OnChanges {
   public isInitialized = false;
 
   @Input()
-  public data: Visit[] = null;
+  public data: any[] = null;
 
   constructor() { }
 
@@ -48,17 +45,17 @@ export class VitalSignsComponent implements OnChanges {
       return;
     }
 
-    let tempData = this.data.filter((x) => x.vitalSigns.temperature || x.vitalSigns.bloodPressureDiastolic || x.vitalSigns.bloodPressureSystolic || x.vitalSigns.glucose || x.vitalSigns.heartRate || x.vitalSigns.pulseOximetry || x.vitalSigns.respiratoryRate);
+    let tempData = this.data.filter((x) => x.VitalSigns.Temperature || x.VitalSigns.BloodPressureDiastolic || x.VitalSigns.BloodPressureSystolic || x.VitalSigns.Glucose || x.VitalSigns.HeartRate || x.VitalSigns.PulseOximetry || x.VitalSigns.RespiratoryRate);
 
-    this.lineChartLabels = tempData.map((x) => moment(x.timestamp).format('YYYY-MM-DD'));
+    this.lineChartLabels = tempData.map((x) => moment(x.Timestamp).format('YYYY-MM-DD'));
     this.lineChartData = [
-      { data: tempData.map((x) => x.vitalSigns.temperature), label: 'Temperature' },
-      { data: tempData.map((x) => x.vitalSigns.bloodPressureSystolic), label: 'Blood Pressure Systolic' },
-      { data: tempData.map((x) => x.vitalSigns.bloodPressureDiastolic), label: 'Blood Pressure Diastolic' },
-      { data: tempData.map((x) => x.vitalSigns.glucose), label: 'Glucose' },
-      { data: tempData.map((x) => x.vitalSigns.heartRate), label: 'Heart Rate' },
-      { data: tempData.map((x) => x.vitalSigns.pulseOximetry), label: 'Pulse Oximetry' },
-      { data: tempData.map((x) => x.vitalSigns.respiratoryRate), label: 'Respiratory Rate' }
+      { data: tempData.map((x) => x.VitalSigns.Temperature), label: 'Temperature' },
+      { data: tempData.map((x) => x.VitalSigns.BloodPressureSystolic), label: 'Blood Pressure Systolic' },
+      { data: tempData.map((x) => x.VitalSigns.BloodPressureDiastolic), label: 'Blood Pressure Diastolic' },
+      { data: tempData.map((x) => x.VitalSigns.Glucose), label: 'Glucose' },
+      { data: tempData.map((x) => x.VitalSigns.HeartRate), label: 'Heart Rate' },
+      { data: tempData.map((x) => x.VitalSigns.PulseOximetry), label: 'Pulse Oximetry' },
+      { data: tempData.map((x) => x.VitalSigns.RespiratoryRate), label: 'Respiratory Rate' }
     ];
 
     this.isInitialized = true;

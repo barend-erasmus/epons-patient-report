@@ -2,9 +2,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import * as moment from 'moment';
 
-// Imports models
-import { CompletedMeasurementTool } from './../entity-views/completed-measurement-tool.model';
-
 @Component({
   selector: 'app-completed-measurement-tool',
   templateUrl: './completed-measurement-tool.component.html',
@@ -43,7 +40,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
   public isInitialized = false;
 
   @Input()
-  public data: CompletedMeasurementTool[] = null;
+  public data: any[] = null;
 
   @Input()
   public name: string = null;
@@ -61,8 +58,8 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     }
 
     let tempData = this.data
-      .sort((a: CompletedMeasurementTool, b: CompletedMeasurementTool) => {
-        return a.endDate > b.endDate ? 1 : 0;
+      .sort((a: any, b: any) => {
+        return a.EndDate > b.EndDate ? 1 : 0;
       });
 
     if (tempData.length === 0) {
@@ -73,12 +70,12 @@ export class CompletedMeasurementToolComponent implements OnChanges {
       tempData = tempData.slice(-3);
     }
 
-    this.radarChartLabels = Object.keys(tempData[0].scoreItems).map((x) => this.wordWrap(x));
+    this.radarChartLabels = Object.keys(tempData[0].ScoreItems).map((x) => this.wordWrap(x));
     this.radarChartData = tempData
       .map((x, i) => {
         return {
-          data: Object.keys(x.scoreItems).map((key) => x.scoreItems[key]),
-          label: `${moment(x.endDate).format('YYYY-MM-DD')}`
+          data: Object.keys(x.ScoreItems).map((key) => x.ScoreItems[key]),
+          label: `${moment(x.EndDate).format('YYYY-MM-DD')}`
         };
       });
 

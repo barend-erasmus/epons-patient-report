@@ -1,12 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-4">
-      <img src="{{patient?.avatar? patient?.avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail" alt="Profile Image">
+      <img src="{{patient?.Avatar? patient?.Avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail" alt="Profile Image">
     </div>
     <div class="col-xs-4">
       <h2>Progress Report</h2>
       <label>{{startDate | date:'dd MMMM yyyy'}} to {{endDate | date:'dd MMMM yyyy'}}</label>
-      <h3>{{patient?.firstname}} {{patient?.lastname}}</h3>
+      <h3>{{patient?.Firstname}} {{patient?.Lastname}}</h3>
     </div>
     <div class="col-xs-4">
       <img src="http://via.placeholder.com/150x150" class="img-thumbnail" alt="Profile Image">
@@ -19,9 +19,9 @@
       <p>Address</p>
     </div>
     <div class="col-xs-8">
-      <p>{{patient?.dateOfBirth | date:'yyyy-MM-dd'}} (Age {{patient?.age}})</p>
-      <p>{{patient?.address?.street}}, {{patient?.address?.city?.name}}, {{patient?.address?.province?.name}}, {{patient?.address?.country?.name}},
-        {{patient?.address?.postalCode}}</p>
+      <p>{{patient?.DateOfBirth | date:'yyyy-MM-dd'}} (Age {{patient?.Age}})</p>
+      <p>{{patient?.Address?.Street}}, {{patient?.Address?.City?.Name}}, {{patient?.Address?.Province?.Name}}, {{patient?.Address?.Country?.Name}},
+        {{patient?.Address?.PostalCode}}</p>
     </div>
   </div>
   <div class="row padded">
@@ -36,15 +36,15 @@
           <th>Practice Number</th>
         </tr>
       </thead>
-      <tbody>
+       <tbody>
         <tr  *ngFor="let doctor of referringDoctors">
-          <td>{{doctor.fullname}}</td>
-          <td>{{doctor.contactDetails.emailAddress}}</td>
-          <td>{{doctor.contactDetails.contactNumber}}</td>
-          <td>{{doctor.hpcsaNumber}}</td>
-          <td>{{doctor.practiceNumber}}</td>
+          <td>{{doctor.Fullname}}</td>
+          <td>{{doctor.ContactDetails.EmailAddress}}</td>
+          <td>{{doctor.ContactDetails.ContactNumber}}</td>
+          <td>{{doctor.HPCSANumber}}</td>
+          <td>{{doctor.PracticeNumber}}</td>
         </tr>
-      </tbody>
+      </tbody> 
     </table>
   </div>
   <div class="row padded">
@@ -59,15 +59,15 @@
           <th>Practice Number</th>
         </tr>
       </thead>
-      <tbody>
+       <tbody>
         <tr  *ngFor="let doctor of treatingDoctors">
-          <td>{{doctor.fullname}}</td>
-          <td>{{doctor.contactDetails.emailAddress}}</td>
-          <td>{{doctor.contactDetails.contactNumber}}</td>
-          <td>{{doctor.hpcsaNumber}}</td>
-          <td>{{doctor.practiceNumber}}</td>
+          <td>{{doctor.Fullname}}</td>
+          <td>{{doctor.ContactDetails.EmailAddress}}</td>
+          <td>{{doctor.ContactDetails.ContactNumber}}</td>
+          <td>{{doctor.HPCSANumber}}</td>
+          <td>{{doctor.PracticeNumber}}</td>
         </tr>
-      </tbody>
+      </tbody> 
     </table>
   </div>
   <div class="row padded">
@@ -85,12 +85,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let episodeOfCare of episodeOfCares" class="{{episodeOfCare.dischargeTimestamp? '' : 'text-danger'}}">
-          <td>{{episodeOfCare.facility?.name}}</td>
-          <td>{{episodeOfCare.onsetTimestamp | date: 'yyyy-MM-dd'}}</td>
-          <td>{{episodeOfCare.admissionTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
-          <td>{{episodeOfCare.dischargeTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
-          <td>{{episodeOfCare.diagnoses?.name}}</td>
-          <td>{{episodeOfCare.impairmentGroup?.name}}</td>
+          <td>{{episodeOfCare.Facility?.Name}}</td>
+          <td>{{episodeOfCare.OnsetTimestamp | date: 'yyyy-MM-dd'}}</td>
+          <td>{{episodeOfCare.AdmissionTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
+          <td>{{episodeOfCare.DischargeTimestamp | date: 'yyyy-MM-dd HH:mm'}}</td>
+          <td>{{episodeOfCare.Diagnoses?.Name}}</td>
+          <td>{{episodeOfCare.ImpairmentGroup?.Name}}</td>
         </tr>
       </tbody>
     </table>
@@ -103,11 +103,11 @@
           <th>ICD10 Code</th>
         </tr>
       </thead>
-      <tbody>
+       <tbody>
         <tr *ngFor="let item of diagnoses">
-          <td>{{item.name}}</td>
+          <td>{{item.Name}}</td>
         </tr>
-      </tbody>
+      </tbody> 
     </table>
   </div>
   <div class="row padded">
@@ -121,14 +121,14 @@
           <th>Deassigned Timestamp</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let measurementTool of measurementTools" class="{{measurementTool.deassignedTimestamp? '' : 'text-danger'}}">
-          <td>{{measurementTool.measurementTool.name}}</td>
-          <td>{{measurementTool.frequency.name}}</td>
-          <td>{{measurementTool.assignedTimestamp | date: 'yyyy-MM-dd'}}</td>
-          <td>{{measurementTool.deassignedTimestamp | date: 'yyyy-MM-dd'}}</td>
+       <tbody>
+        <tr *ngFor="let measurementTool of patient?.MeasurementToolDetails" class="{{measurementTool.DeassignedTimestamp? '' : 'text-danger'}}">
+          <td>{{measurementTool.MeasurementTool.Name}}</td>
+          <td>{{measurementTool.Frequency.Name}}</td>
+          <td>{{measurementTool.AssignedTimestamp | date: 'yyyy-MM-dd'}}</td>
+          <td>{{measurementTool.DeassignedTimestamp | date: 'yyyy-MM-dd'}}</td>
         </tr>
-      </tbody>
+      </tbody> 
     </table>
   </div>
   <div class="row padded">
@@ -143,15 +143,15 @@
           <th>Facility</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let teamMember of teamMembers" class="{{teamMember.deallocationTimestamp? '' : 'text-danger'}}">
-          <th>{{teamMember.user.fullname}}</th>
-          <th>{{teamMember.user.position?.name}}</th>
-          <th>{{teamMember.allocationTimestamp | date: 'yyyy-MM-dd'}}</th>
-          <th>{{teamMember.deallocationTimestamp | date: 'yyyy-MM-dd'}}</th>
-          <th>{{teamMember.facility?.name}}</th>
+       <tbody>
+        <tr *ngFor="let teamMember of patient?.TeamMembers" class="{{teamMember.DeallocationTimestamp? '' : 'text-danger'}}">
+          <th>{{teamMember.User.Fullname}}</th>
+          <th>{{teamMember.User.Position?.Name}}</th>
+          <th>{{teamMember.AllocationTimestamp | date: 'yyyy-MM-dd'}}</th>
+          <th>{{teamMember.DeallocationTimestamp | date: 'yyyy-MM-dd'}}</th>
+          <th>{{teamMember.Facility?.Name}}</th>
         </tr>
-      </tbody>
+      </tbody> 
     </table>
   </div>
   <div class="row padded">
@@ -177,9 +177,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let supportService of patient?.supportServices">
-          <td>{{supportService.supportService.name}}</td>
-          <td>{{supportService.text}}</td>
+        <tr *ngFor="let supportService of patient?.SupportServices">
+          <td>{{supportService.SupportService.Name}}</td>
+          <td>{{supportService.Text}}</td>
         </tr>
       </tbody>
     </table>
@@ -187,10 +187,10 @@
   <div class="row padded">
     <h3>Charts</h3>
     <div>
-      <app-vital-signs [data]="visits"></app-vital-signs>
+       <app-vital-signs [data]="visits"></app-vital-signs> 
     </div>
     <div *ngFor="let chart of charts">
-      <app-completed-measurement-tool [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
+       <app-completed-measurement-tool [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool> 
     </div>
   </div>
 </div>

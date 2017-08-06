@@ -9,16 +9,16 @@ import * as moment from 'moment';
 import { BaseService } from './base.service';
 
 @Injectable()
-export class PatientService extends BaseService {
+export class EpisodeOfCareService extends BaseService {
 
   constructor(http: Http) {
     super(http);
   }
 
-  public findById(patientId: string): Observable<any> {
-    return this.get(`/api/Patient/FindById?id=${patientId}`).map((x) => {
+  public list(patientId: string, startDate: Date, endDate: Date): Observable<any[]> {
+    return this.get(`/api/EpisodeOfCare/List?patientId=${patientId}&startDate=${moment(startDate).format('YYYY-MM-DD')}&endDate=${moment(endDate).format('YYYY-MM-DD')}`).map((x) => {
 
-      const json: any = x.json();
+      const json: any[] = x.json();
 
       return json;
     });

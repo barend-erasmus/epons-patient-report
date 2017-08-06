@@ -8,18 +8,8 @@ import * as FileSaver from 'file-saver';
 // Imports services
 import { PatientService } from './services/patient.service';
 import { VisitService } from './services/visit.service';
-import { TeamMemberService } from './services/team-member.service';
-import { EpisodeOfCareService } from './services/episodeOfCare.service';
+import { EpisodeOfCareService } from './services/episode-of-care.service';
 
-// Imports models
-import { CompletedMeasurementTool } from './entity-views/completed-measurement-tool.model';
-import { Visit } from './entity-views/visit.model';
-import { PatientMeasurementTool } from './entity-views/patient-measurement-tool.model';
-import { Patient } from './entities/patient.model';
-import { Doctor } from './entity-views/doctor.model';
-import { Diagnoses } from './value-objects/diagnoses.model';
-import { EpisodeOfCare } from './entity-views/episode-of-care.model';
-import { TeamMember } from './entity-views/team-member.model';
 
 @Component({
   selector: 'app-root',
@@ -31,18 +21,18 @@ export class AppComponent {
   private patientService: PatientService = null;
   private episodeOfCareService: EpisodeOfCareService = null;
   private visitService: VisitService = null;
-  private teamMemberService: TeamMemberService = null;
 
-  public patient: Patient = null;
-  public episodeOfCares: EpisodeOfCare[] = [];
-  public diagnoses: Diagnoses[] = [];
-  public visits: Visit[] = [];
-  public referringDoctors: Doctor[] = [];
-  public treatingDoctors: Doctor[] = [];
-  public measurementTools: PatientMeasurementTool[] = [];
-  public teamMembers: TeamMember[] = [];
+  public patient: any = null;
 
-  public charts: Array<{ name: string, data: CompletedMeasurementTool[] }> = [];
+  public episodeOfCares: any[] = [];
+  public diagnoses: any[] = [];
+  public treatingDoctors: any = [];
+  public referringDoctors: any[] = [];
+
+  public visits: any[] = [];
+  
+
+  public charts: Array<{ name: string, data: any[] }> = [];
 
   public startDate: Date = moment().subtract(365, 'days').toDate();
   public endDate: Date = moment().toDate();
@@ -53,7 +43,6 @@ export class AppComponent {
     this.patientService = new PatientService(http);
     this.episodeOfCareService = new EpisodeOfCareService(http);
     this.visitService = new VisitService(http);
-    this.teamMemberService = new TeamMemberService(http);
 
     const patientId = this.getParameterByName('id');
 
@@ -61,11 +50,6 @@ export class AppComponent {
     this.loadPatient(patientId);
     this.loadVisits(patientId);
     this.loadEpisodeOfCares(patientId);
-    this.loadReferringDoctors(patientId);
-    this.loadTreatingDoctors(patientId);
-    this.loadDiagnoses(patientId);
-    this.loadMeasurementTools(patientId);
-    this.loadTeamMembers(patientId);
   }
 
   public download(): void {
@@ -83,27 +67,21 @@ export class AppComponent {
   }
 
   private loadPatient(patientId: string): void {
-    this.patientService.findById(patientId).subscribe((result: Patient) => {
+    this.patientService.findById(patientId).subscribe((result: any) => {
       this.patient = result;
     });
   }
 
-  private loadTeamMembers(patientId: string): void {
-    this.teamMemberService.list(patientId, this.startDate, this.endDate).subscribe((result: TeamMember[]) => {
-      this.teamMembers = result;
-    })
-  }
-
   private loadCompletedMeasurementTools(patientId: string): void {
-    this.visitService.listCompletedMeasurementTools(patientId, this.startDate, this.endDate).subscribe((result: CompletedMeasurementTool[]) => {
+    this.visitService.listCompletedMeasurementTools(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
 
-      const measurementTools: string[] = result.map((x) => x.measurementTool.name).filter((value, index, self) => {
+      const measurementTools: string[] = result.map((x) => x.MeasurementTool.Name).filter((value, index, self) => {
         return self.indexOf(value) === index;
       });
 
       measurementTools.forEach((name) => {
         const data = result
-          .filter((x) => x.measurementTool.name === name);
+          .filter((x) => x.MeasurementTool.Name === name);
 
         this.charts.push({
           name: name,
@@ -114,38 +92,17 @@ export class AppComponent {
   }
 
   private loadVisits(patientId: string): void {
-    this.visitService.list(patientId, this.startDate, this.endDate).subscribe((result: Visit[]) => {
+    this.visitService.list(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
       this.visits = result;
     });
   }
 
   private loadEpisodeOfCares(patientId: string): void {
-    this.episodeOfCareService.list(patientId, this.startDate, this.endDate).subscribe((result: EpisodeOfCare[]) => {
+    this.episodeOfCareService.list(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
       this.episodeOfCares = result;
-    });
-  }
-
-  private loadMeasurementTools(patientId: string): void {
-    this.patientService.listMeasurementTools(patientId, this.startDate, this.endDate).subscribe((result: PatientMeasurementTool[]) => {
-      this.measurementTools = result;
-    });
-  }
-
-  private loadDiagnoses(patientId: string): void {
-    this.episodeOfCareService.listDiagnoses(patientId, this.startDate, this.endDate).subscribe((result: Diagnoses[]) => {
-      this.diagnoses = result;
-    });
-  }
-
-  private loadReferringDoctors(patientId: string): void {
-    this.episodeOfCareService.listReferringDoctors(patientId).subscribe((result: Doctor[]) => {
-      this.referringDoctors = result;
-    });
-  }
-
-  private loadTreatingDoctors(patientId: string): void {
-    this.episodeOfCareService.listTreatingDoctors(patientId).subscribe((result: Doctor[]) => {
-      this.treatingDoctors = result;
+      this.diagnoses = result.filter((x) => x.Diagnoses).map((x) => x.Diagnoses); 
+      this.treatingDoctors = result.filter((x) => x.TreatingDoctor).map((x) => x.TreatingDoctor); 
+      this.referringDoctors = result.filter((x) => x.ReferringDoctor).map((x) => x.ReferringDoctor);
     });
   }
 
