@@ -103,7 +103,6 @@ export class AppComponent {
       });
 
       this.caseManagerNotes = this.caseManagerNotes.filter((note) => note.ProgressNotes);
-      console.log(this.caseManagerNotes);
     });
   }
 

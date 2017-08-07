@@ -10,10 +10,11 @@ import * as moment from 'moment';
 export class CompletedMeasurementToolComponent implements OnChanges {
 
   public radarChartLabels: string[][] = [];
+  public lineChartLabels: string[] = [];
 
-  public radarChartData: Array<{ data: number[], label: string }> = [];
+  public chartData: Array<{ data: number[], label: string }> = [];
 
-  public options: any = {
+  public radarChartOptions: any = {
     responsive: true,
     scale: {
       ticks: {
@@ -21,6 +22,10 @@ export class CompletedMeasurementToolComponent implements OnChanges {
         max: 7
       }
     }
+  };
+
+  public lineChartOptions:any = {
+    responsive: true
   };
 
   public colors: any = [
@@ -36,6 +41,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
 
 
   public radarChartType: string = 'radar';
+  public lineChartType: string = 'line';
 
   public isInitialized = false;
 
@@ -71,18 +77,20 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     }
 
     this.radarChartLabels = Object.keys(tempData[0].ScoreItems).map((x) => this.wordWrap(x));
-    this.radarChartData = tempData
+    this.lineChartLabels = Object.keys(tempData[0].ScoreItems);
+
+    this.chartData = tempData
       .map((x, i) => {
         return {
           data: Object.keys(x.ScoreItems).map((key) => x.ScoreItems[key]),
-          label: `${moment(x.EndDate).format('YYYY-MM-DD')}`
+          label: this.name === 'Beta'? `${moment(x.EndDate).format('YYYY-MM-DD')} - ${x.Score} (${x.BurdenOfCare} hours per 24 hours)` : `${moment(x.EndDate).format('YYYY-MM-DD')} ${x.Score}`
         };
       });
 
     if (this.name === 'APOM') {
-      this.options.scale.ticks.max = 18;
+      this.radarChartOptions.scale.ticks.max = 18;
     } else {
-      this.options.scale.ticks.max = 7;
+      this.radarChartOptions.scale.ticks.max = 7;
     }
 
     this.isInitialized = true;
