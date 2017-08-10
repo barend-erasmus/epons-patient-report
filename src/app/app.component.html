@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-4">
-      <img src="{{patient?.Avatar? patient?.Avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail" alt="Profile Image">
+      <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail" alt="Profile Image">
     </div>
     <div class="col-xs-4">
       <h2>Progress Report</h2>
