@@ -26,7 +26,12 @@ export class CompletedMeasurementToolComponent implements OnChanges {
   };
 
   public lineChartOptions: any = {
-    responsive: true
+    responsive: true,
+    elements: {
+      line: {
+        fill: false
+      }
+    }
   };
 
   public colors: any = [
