@@ -12,7 +12,8 @@ export class CompletedMeasurementToolComponent implements OnChanges {
   public radarChartLabels: string[][] = [];
   public lineChartLabels: string[] = [];
 
-  public chartData: Array<{ data: number[], label: string }> = [];
+  public radarChartData: Array<{ data: number[], label: string }> = [];
+  public lineChartData: Array<{ data: number[], label: string }> = [];
 
   public radarChartOptions: any = {
     responsive: true,
@@ -24,7 +25,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     }
   };
 
-  public lineChartOptions:any = {
+  public lineChartOptions: any = {
     responsive: true
   };
 
@@ -63,29 +64,41 @@ export class CompletedMeasurementToolComponent implements OnChanges {
       return;
     }
 
-    let tempData = this.data
+    let radarTempData = this.data
       .sort((a: any, b: any) => {
         return a.EndDate > b.EndDate ? 1 : 0;
       });
 
-    if (tempData.length === 0) {
+    let lineTempData = this.data
+      .sort((a: any, b: any) => {
+        return a.EndDate > b.EndDate ? 1 : 0;
+      });
+
+    if (radarTempData.length === 0) {
       return;
     }
 
-    if (tempData.length > 3) {
-      tempData = tempData.slice(-3);
+    if (radarTempData.length > 3) {
+      radarTempData = radarTempData.slice(-3);
     }
 
-    this.radarChartLabels = Object.keys(tempData[0].ScoreItems).map((x) => this.wordWrap(x));
-    this.lineChartLabels = Object.keys(tempData[0].ScoreItems);
+    this.radarChartLabels = Object.keys(radarTempData[0].ScoreItems).map((x) => this.wordWrap(x));
+    this.lineChartLabels = lineTempData.map((x) => moment(x.EndDate).format('YYYY-MM-DD'));
 
-    this.chartData = tempData
+    this.radarChartData = radarTempData
       .map((x, i) => {
         return {
           data: Object.keys(x.ScoreItems).map((key) => x.ScoreItems[key]),
-          label: this.name === 'Beta'? `${moment(x.EndDate).format('YYYY-MM-DD')} - ${x.Score} (${x.BurdenOfCare} hours per 24 hours)` : `${moment(x.EndDate).format('YYYY-MM-DD')} ${x.Score}`
+          label: this.name === 'Beta' ? `${moment(x.EndDate).format('YYYY-MM-DD')} - ${x.Score} (${x.BurdenOfCare} hours per 24 hours)` : `${moment(x.EndDate).format('YYYY-MM-DD')} ${x.Score}`
         };
       });
+
+    for (const key in lineTempData[0].ScoreItems) {
+      this.lineChartData.push({
+        data: lineTempData.map((x) => x.ScoreItems[key]),
+        label: key
+      });
+    }
 
     if (this.name === 'APOM') {
       this.radarChartOptions.scale.ticks.max = 18;
@@ -109,7 +122,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     let workingStr = str;
     const newStr = [];
 
-    while(workingStr.length > 20) {
+    while (workingStr.length > 20) {
       newStr.push(workingStr.slice(0, 20));
       workingStr = workingStr.slice(20)
     }

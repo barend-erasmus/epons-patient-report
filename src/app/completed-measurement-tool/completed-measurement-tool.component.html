@@ -1,7 +1,7 @@
 <div *ngIf="isInitialized">
   <h4>{{name}}</h4>
-  <canvas baseChart [datasets]="chartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="radarChartOptions"
+  <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="radarChartOptions"
     [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
-  <canvas baseChart [datasets]="chartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="lineChartOptions"
-    [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+  <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="lineChartOptions"
+    (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
 </div>
