@@ -9,6 +9,7 @@ import * as FileSaver from 'file-saver';
 import { PatientService } from './services/patient.service';
 import { VisitService } from './services/visit.service';
 import { EpisodeOfCareService } from './services/episode-of-care.service';
+import { FacilityService } from './services/facility.service';
 
 
 @Component({
@@ -21,8 +22,11 @@ export class AppComponent {
   private patientService: PatientService = null;
   private episodeOfCareService: EpisodeOfCareService = null;
   private visitService: VisitService = null;
+  private facilityService: FacilityService = null;
 
   public patient: any = null;
+
+  public facility: any = null;
 
   public episodeOfCares: any[] = [];
   public diagnoses: any[] = [];
@@ -43,13 +47,17 @@ export class AppComponent {
     this.patientService = new PatientService(http);
     this.episodeOfCareService = new EpisodeOfCareService(http);
     this.visitService = new VisitService(http);
+    this.facilityService = new FacilityService(http);
 
     const patientId = this.getParameterByName('id');
+    const facilityId = this.getParameterByName('facilityId');
 
     this.loadCompletedMeasurementTools(patientId);
     this.loadPatient(patientId);
     this.loadVisits(patientId);
     this.loadEpisodeOfCares(patientId);
+
+    this.loadFacility(facilityId);
   }
 
   public download(): void {
@@ -64,6 +72,12 @@ export class AppComponent {
     }
 
     this.export(html);
+  }
+
+  private loadFacility(facilityId: string): void {
+    this.facilityService.find(facilityId).subscribe((result) => {
+      this.facility = result;
+    })
   }
 
   private loadPatient(patientId: string): void {
