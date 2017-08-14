@@ -1,7 +1,7 @@
 // Imports
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import * as moment from 'moment';
 import * as FileSaver from 'file-saver';
 
@@ -17,7 +17,7 @@ import { FacilityService } from './services/facility.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   private patientService: PatientService = null;
   private episodeOfCareService: EpisodeOfCareService = null;
@@ -43,21 +43,28 @@ export class AppComponent {
 
   public busyDownloading: boolean = false;
 
+  public patientId: string = null;
+  public facilityId: string = null;
+
   constructor(private http: Http, private el: ElementRef) {
     this.patientService = new PatientService(http);
     this.episodeOfCareService = new EpisodeOfCareService(http);
     this.visitService = new VisitService(http);
     this.facilityService = new FacilityService(http);
 
-    const patientId = this.getParameterByName('id');
-    const facilityId = this.getParameterByName('facilityId');
+  }
 
-    this.loadCompletedMeasurementTools(patientId);
-    this.loadPatient(patientId);
-    this.loadVisits(patientId);
-    this.loadEpisodeOfCares(patientId);
+  ngOnInit(): void {
 
-    this.loadFacility(facilityId);
+    this.patientId = this.el.nativeElement.getAttribute('patientId');
+    this.facilityId = this.el.nativeElement.getAttribute('facilityId');
+
+    this.loadCompletedMeasurementTools(this.patientId);
+    this.loadPatient(this.patientId);
+    this.loadVisits(this.patientId);
+    this.loadEpisodeOfCares(this.patientId);
+
+    this.loadFacility(this.facilityId);
   }
 
   public download(): void {
@@ -111,7 +118,7 @@ export class AppComponent {
       this.caseManagerNotes = result;
 
       this.caseManagerNotes = this.caseManagerNotes.map((visit) => {
-        visit.ProgressNotes = visit.ProgressNotes? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
+        visit.ProgressNotes = visit.ProgressNotes ? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
 
         return visit;
       });
