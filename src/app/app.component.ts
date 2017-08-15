@@ -58,6 +58,8 @@ export class AppComponent implements OnInit {
 
     this.patientId = this.el.nativeElement.getAttribute('patientId');
     this.facilityId = this.el.nativeElement.getAttribute('facilityId');
+    this.startDate = moment(this.el.nativeElement.getAttribute('startDate')).toDate();
+    this.endDate = moment(this.el.nativeElement.getAttribute('endDate')).toDate();
 
     this.loadCompletedMeasurementTools(this.patientId);
     this.loadPatient(this.patientId);
@@ -130,7 +132,7 @@ export class AppComponent implements OnInit {
   private loadEpisodeOfCares(patientId: string): void {
     this.episodeOfCareService.list(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
       this.episodeOfCares = result;
-      this.diagnoses = result.filter((x) => x.Diagnoses).map((x) => x.Diagnoses);
+      this.diagnoses = result.filter((x) => x.Diagnoses).map((x) => x.Diagnoses).filter((x, index, self) => self.findIndex((y) => { return y.Id === x.Id }) === index);
       this.treatingDoctors = result.filter((x) => x.TreatingDoctor).map((x) => x.TreatingDoctor);
       this.referringDoctors = result.filter((x) => x.ReferringDoctor).map((x) => x.ReferringDoctor);
     });
@@ -154,7 +156,7 @@ export class AppComponent implements OnInit {
         let pageStyle = `<style>${data1}</style>`;
 
         this.http.post(`https://html-converter.openservices.co.za/api/convert/topdf?`, {
-          html: `${pageStyle}${html}`
+          html: `${pageStyle}<div class="container">${html}</div>`
         }, { responseType: ResponseContentType.Blob })
           .map(res => res.blob())
           .subscribe(data2 => {

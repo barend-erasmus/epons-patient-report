@@ -1,5 +1,7 @@
 <div *ngIf="isInitialized">
-  <h4>Vital Signs</h4>
+  <h4><u>Vital Signs</u></h4>
   <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="options" [legend]="lineChartLegend"
     (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+    <br />
+    <br />
 </div>
