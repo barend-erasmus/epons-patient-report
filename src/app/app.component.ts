@@ -155,7 +155,7 @@ export class AppComponent implements OnInit {
       .subscribe(data1 => {
         let pageStyle = `<style>${data1}</style>`;
 
-        this.http.post(`https://html-converter.openservices.co.za/api/convert/topdf?`, {
+        this.http.post(`https://html-converter.openservices.co.za/api/convert/topdf`, {
           html: `${pageStyle}<div class="container">${html}</div>`
         }, { responseType: ResponseContentType.Blob })
           .map(res => res.blob())
