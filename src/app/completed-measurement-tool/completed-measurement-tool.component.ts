@@ -94,7 +94,9 @@ export class CompletedMeasurementToolComponent implements OnChanges {
       .map((x, i) => {
         return {
           data: Object.keys(x.ScoreItems).map((key) => x.ScoreItems[key]),
-          label: this.name === 'Beta' ? `${moment(x.EndDate).format('YYYY-MM-DD')} - ${x.Score} (${x.BurdenOfCare} hours per 24 hours)` : `${moment(x.EndDate).format('YYYY-MM-DD')} ${x.Score}`
+          label: this.name === 'Beta' ?
+            `${moment(x.EndDate).format('YYYY-MM-DD')}: ${x.Score} (${x.BurdenOfCare} hours per 24 hours)` :
+            `${moment(x.EndDate).format('YYYY-MM-DD')}: ${x.Score}`
         };
       });
 
