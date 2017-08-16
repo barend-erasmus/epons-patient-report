@@ -47,7 +47,7 @@ export class VitalSignsComponent implements OnChanges {
 
     let tempData = this.data.filter((x) => x.VitalSigns.Temperature || x.VitalSigns.BloodPressureDiastolic || x.VitalSigns.BloodPressureSystolic || x.VitalSigns.Glucose || x.VitalSigns.HeartRate || x.VitalSigns.PulseOximetry || x.VitalSigns.RespiratoryRate);
 
-    this.lineChartLabels = tempData.map((x) => moment(x.Timestamp).format('YYYY-MM-DD'));
+    this.lineChartLabels = tempData.map((x) => moment(x.Timestamp).format('YYYY-MM-DD HH:mm'));
     this.lineChartData = [
       { data: tempData.map((x) => x.VitalSigns.Temperature), label: 'Temperature' },
       { data: tempData.map((x) => x.VitalSigns.BloodPressureSystolic), label: 'Blood Pressure Systolic' },
