@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-4">
-    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150'}}" width="150"
-      height="150" class="img-thumbnail" alt="Profile Image">
+    <img src="{{facility?.Avatar? 'data:image/png;base64,' + facility?.Avatar : 'http://via.placeholder.com/150x150?text=No+Image'}}" class="img-thumbnail"
+      width="150" height="150" alt="Profile Image">
   </div>
   <div class="col-xs-4">
     <h2>Progress Report</h2>
@@ -9,8 +9,8 @@
     <h3>{{patient?.Firstname}} {{patient?.Lastname}}</h3>
   </div>
   <div class="col-xs-4">
-    <img src="{{facility?.Avatar? 'data:image/png;base64,' + facility?.Avatar : 'http://via.placeholder.com/150x150'}}" class="img-thumbnail"
-      width="150" height="150" alt="Profile Image">
+    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=No+Image'}}" width="150"
+      height="150" class="img-thumbnail" alt="Profile Image">
     <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download'}}</button>
   </div>
 </div>
@@ -185,7 +185,11 @@
             <br /> {{note.User.Fullname}}
             <br /> {{note.Duration}} minutes
           </td>
-          <td [innerHTML]="note.ProgressNotes"></td>
+          <td>
+            <div [innerHTML]="note.ProgressNotes | safeHtml">
+
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

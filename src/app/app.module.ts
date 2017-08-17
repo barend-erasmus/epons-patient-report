@@ -7,12 +7,14 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AppComponent } from './app.component';
 import { CompletedMeasurementToolComponent } from './completed-measurement-tool/completed-measurement-tool.component';
 import { VitalSignsComponent } from './vital-signs/vital-signs.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     CompletedMeasurementToolComponent,
-    VitalSignsComponent
+    VitalSignsComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

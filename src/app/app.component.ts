@@ -13,7 +13,7 @@ import { FacilityService } from './services/facility.service';
 
 
 @Component({
-  selector: 'app-root',
+  selector: 'epons-patient-report',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -119,13 +119,11 @@ export class AppComponent implements OnInit {
       this.visits = result;
       this.caseManagerNotes = result;
 
-      this.caseManagerNotes = this.caseManagerNotes.map((visit) => {
-        visit.ProgressNotes = visit.ProgressNotes ? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
+      this.caseManagerNotes = this.caseManagerNotes.filter((visit) => {
+        const note = visit.ProgressNotes ? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
 
-        return visit;
+        return note? true: false;
       });
-
-      this.caseManagerNotes = this.caseManagerNotes.filter((note) => note.ProgressNotes);
     });
   }
 
