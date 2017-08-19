@@ -1,13 +1,19 @@
 <div *ngIf="isInitialized" class="text-center">
-  <h4><u>{{name}}</u></h4>
-  <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="radarChartOptions"
-    [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+  <h4>
+    <u>{{name}}</u>
+  </h4>
+  <div *ngIf="showRadarChart">
+    <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="radarChartOptions"
+      [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
     <br />
     <br />
-  <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="lineChartOptions"
-    (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <div *ngIf="showLineChart">
+    <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="lineChartOptions"
+      (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
     <br />
     <br />
-    <br />
-    <br />
+  </div>
+  <br />
+  <br />
 </div>

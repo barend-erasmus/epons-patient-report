@@ -46,6 +46,9 @@ export class AppComponent implements OnInit {
   public patientId: string = null;
   public facilityId: string = null;
 
+  public showRadarChart: boolean = null;
+  public showLineChart: boolean = null;
+
   constructor(private http: Http, private el: ElementRef) {
     this.patientService = new PatientService(http);
     this.episodeOfCareService = new EpisodeOfCareService(http);
@@ -60,6 +63,8 @@ export class AppComponent implements OnInit {
     this.facilityId = this.el.nativeElement.getAttribute('facilityId');
     this.startDate = moment(this.el.nativeElement.getAttribute('startDate')).toDate();
     this.endDate = moment(this.el.nativeElement.getAttribute('endDate')).toDate();
+    this.showRadarChart = this.el.nativeElement.getAttribute('showRadarChart').toLowerCase() === 'true';
+    this.showLineChart = this.el.nativeElement.getAttribute('showLineChart').toLowerCase() === 'true';
 
     this.loadCompletedMeasurementTools(this.patientId);
     this.loadPatient(this.patientId);

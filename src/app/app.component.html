@@ -221,7 +221,7 @@
       <app-vital-signs [data]="visits"></app-vital-signs>
     </div>
     <div *ngFor="let chart of charts">
-      <app-completed-measurement-tool [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
+      <app-completed-measurement-tool [showRadarChart]="showRadarChart" [showLineChart]="showLineChart" [data]="chart.data" [name]="chart.name"></app-completed-measurement-tool>
     </div>
   </div>
 </div>

@@ -57,6 +57,12 @@ export class CompletedMeasurementToolComponent implements OnChanges {
   @Input()
   public name: string = null;
 
+  @Input()
+  public showRadarChart: boolean = null;
+
+  @Input()
+  public showLineChart: boolean = null;
+
   constructor() { }
 
   public ngOnInit() {
