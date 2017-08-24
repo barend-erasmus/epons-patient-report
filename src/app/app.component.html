@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-4">
-    <img src="{{facility?.Avatar? 'data:image/png;base64,' + facility?.Avatar : 'http://via.placeholder.com/150x150?text=No+Image'}}" class="img-thumbnail"
+    <img src="{{facility?.Avatar? 'data:image/png;base64,' + facility?.Avatar : 'http://via.placeholder.com/150x150?text=Patient+photograph+not+available'}}" class="img-thumbnail"
       width="150" height="150" alt="Profile Image">
   </div>
   <div class="col-xs-4">
@@ -9,15 +9,13 @@
     <h3>{{patient?.Firstname}} {{patient?.Lastname}}</h3>
   </div>
   <div class="col-xs-4">
-    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=No+Image'}}" width="150"
+    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=Facility+logo+not+available'}}" width="150"
       height="150" class="img-thumbnail" alt="Profile Image">
     <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download'}}</button>
   </div>
 </div>
 <div class="row padded">
   <div class="col-xs-4">
-    <p>&nbsp;</p>
-    <p>Address</p>
   </div>
   <div class="col-xs-8">
     <p>{{patient?.DateOfBirth | date:'yyyy-MM-dd'}} (Age {{patient?.Age}})</p>

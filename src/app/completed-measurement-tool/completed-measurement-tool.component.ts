@@ -20,7 +20,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     scale: {
       ticks: {
         min: 0,
-        max: 7
+        max: 7,
       }
     }
   };
