@@ -3,13 +3,13 @@
     <u>{{name}}</u>
   </h4>
   <div *ngIf="showRadarChart">
-    <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="radarChartOptions"
+    <canvas id="{{name}}-radar"  baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType" [options]="radarChartOptions"
       [colors]="colors" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
     <br />
     <br />
   </div>
   <div *ngIf="showLineChart">
-    <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="lineChartOptions"
+    <canvas id="{{name}}-line" baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [chartType]="lineChartType" [options]="lineChartOptions"
       (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
     <br />
     <br />

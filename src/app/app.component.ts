@@ -75,17 +75,22 @@ export class AppComponent implements OnInit {
   }
 
   public download(): void {
-    const canvasElements = this.el.nativeElement.querySelectorAll('canvas');
+    const canvasElements: any[] = this.el.nativeElement.querySelectorAll('canvas');
 
-    let html: string = this.el.nativeElement.innerHTML;
-
-    html = html.replace(/<button[^>]*name="download"[^>]*>(.*?)<\/button>/, '');
+    const charts: any = {};
 
     for (const cv of canvasElements) {
-      html = html.replace(/<canvas[^>]*>([.|\n]*?)<\/canvas>/, `<img src="${cv.toDataURL()}"></img>`);
+      const name = cv.attributes['id'].value.split('-')[0];
+      const type = cv.attributes['id'].value.split('-')[1];
+
+      if (!charts[name]) {
+        charts[name] = {};
+      }
+
+      charts[name][type] = cv.toDataURL();
     }
 
-    this.export(html);
+    this.export(charts);
   }
 
   private loadFacility(facilityId: string): void {
@@ -127,7 +132,7 @@ export class AppComponent implements OnInit {
       this.caseManagerNotes = this.caseManagerNotes.filter((visit) => {
         const note = visit.ProgressNotes ? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
 
-        return note? true: false;
+        return note ? true : false;
       });
     });
   }
@@ -151,21 +156,20 @@ export class AppComponent implements OnInit {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
-  private export(html: string): void {
+  private export(charts: any): void {
     this.busyDownloading = true;
 
-    this.http.get(`https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css`).map(res => res.text())
-      .subscribe(data1 => {
-        let pageStyle = `<style>${data1}</style>`;
-
-        this.http.post(`https://html-converter.openservices.co.za/api/convert/topdf`, {
-          html: `${pageStyle}<div class="container">${html}</div>`
-        }, { responseType: ResponseContentType.Blob })
-          .map(res => res.blob())
-          .subscribe(data2 => {
-            FileSaver.saveAs(data2, `PPR_${this.patient.Firstname}_${this.patient.Lastname}.pdf`);
-            this.busyDownloading = false;
-          });
+    this.http.post(`https://epons.openservices.co.za/epons-patient-report-service`, {
+      charts,
+      patientId: this.patientId,
+      facilityId: this.facilityId,
+      startDate: this.startDate,
+      endDate: this.endDate
+    }, { responseType: ResponseContentType.Blob })
+      .map(res => res.blob())
+      .subscribe(data2 => {
+        FileSaver.saveAs(data2, `PPR_${this.patient.Firstname}_${this.patient.Lastname}.pdf`);
+        this.busyDownloading = false;
       });
   }
 }
