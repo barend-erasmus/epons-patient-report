@@ -21,6 +21,14 @@ export class CompletedMeasurementToolComponent implements OnChanges {
       ticks: {
         min: 0,
         max: 7,
+      },
+      pointLabels: {
+        fontSize: 17		
+      }
+    },
+    legend: {
+      labels: {
+        fontSize: 17
       }
     }
   };
@@ -30,6 +38,11 @@ export class CompletedMeasurementToolComponent implements OnChanges {
     elements: {
       line: {
         fill: false
+      }
+    },
+    legend: {
+      labels: {
+        fontSize: 18
       }
     }
   };

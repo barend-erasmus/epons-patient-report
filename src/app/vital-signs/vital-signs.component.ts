@@ -18,6 +18,11 @@ export class VitalSignsComponent implements OnChanges {
       line: {
         fill: false
       }
+    },
+    legend: {
+      labels: {
+        fontSize: 17
+      }
     }
   };
 
