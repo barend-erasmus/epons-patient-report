@@ -143,31 +143,6 @@
 </div>
 <div class="row padded">
   <div class="col-xs-12">
-    <h4>Multidisciplinary Team</h4>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Clinician</th>
-          <th>Position</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Facility</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let teamMember of patient?.TeamMembers" class="{{teamMember.DeallocationTimestamp? '' : 'text-danger'}}">
-          <th>{{teamMember.User.Fullname}}</th>
-          <th>{{teamMember.User.Position?.Name}}</th>
-          <th>{{teamMember.AllocationTimestamp | date: 'yyyy-MM-dd'}}</th>
-          <th>{{teamMember.DeallocationTimestamp | date: 'yyyy-MM-dd'}}</th>
-          <th>{{teamMember.Facility?.Name}}</th>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<div class="row padded">
-  <div class="col-xs-12">
     <h4>Case Manager Notes</h4>
     <table class="table table-striped">
       <thead>
@@ -181,6 +156,7 @@
           <td>
             {{note.Timestamp | date: 'yyyy-MM-dd HH:mm'}}
             <br /> {{note.User.Fullname}}
+            <br *ngIf="note.User.Position !== null" /> {{note.User.Position? note.User.Position.Name : null}}
             <br /> {{note.Duration}} minutes
           </td>
           <td>
