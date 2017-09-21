@@ -50,6 +50,7 @@ export class AppComponent implements OnInit {
   public showRadarChart: boolean = null;
   public showLineChart: boolean = null;
   public showDailyClinicalNotes: boolean = null;
+  public showCaseManagerNotes: boolean = null;
 
   constructor(private http: Http, private el: ElementRef) {
     this.patientService = new PatientService(http);
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
     this.showRadarChart = this.el.nativeElement.getAttribute('showRadarChart').toLowerCase() === 'true';
     this.showLineChart = this.el.nativeElement.getAttribute('showLineChart').toLowerCase() === 'true';
     this.showDailyClinicalNotes = this.el.nativeElement.getAttribute('showDailyClinicalNotes').toLowerCase() === 'true';
+    this.showCaseManagerNotes = this.el.nativeElement.getAttribute('showCaseManagerNotes').toLowerCase() === 'true';
 
     this.loadCompletedMeasurementTools(this.patientId);
     this.loadPatient(this.patientId);
