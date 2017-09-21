@@ -141,7 +141,7 @@ export class AppComponent implements OnInit {
         return note ? true : false;
       });
 
-      this.dailyClinicalNotes =  this.dailyClinicalNotes.filter((visit) => {
+      this.dailyClinicalNotes = this.dailyClinicalNotes.filter((visit) => {
         const note = visit.DailyNotes ? visit.DailyNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
 
         return note ? true : false;
@@ -171,7 +171,8 @@ export class AppComponent implements OnInit {
   private export(charts: any): void {
     this.busyDownloading = true;
 
-    this.http.post(`http://epons.openservices.co.za/epons-patient-report-service`, {
+    // this.http.post(`http://epons.openservices.co.za/epons-patient-report-service`, {
+    this.http.post(`http://localhost:3000/epons-patient-report-service`, {
       charts,
       patientId: this.patientId,
       facilityId: this.facilityId,
