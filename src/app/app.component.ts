@@ -176,7 +176,9 @@ export class AppComponent implements OnInit {
       patientId: this.patientId,
       facilityId: this.facilityId,
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate,
+      showDailyClinicalNotes: this.showCaseManagerNotes,
+      showCaseManagerNotes: this.showCaseManagerNotes,
     }, { responseType: ResponseContentType.Blob })
       .map(res => res.blob())
       .subscribe(data2 => {
