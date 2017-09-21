@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
 
   public visits: any[] = [];
   public caseManagerNotes: any[] = [];
+  public dailyClinicalNotes: any[] = [];
 
   public charts: Array<{ name: string, data: any[] }> = [];
 
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
 
   public showRadarChart: boolean = null;
   public showLineChart: boolean = null;
+  public showDailyClinicalNotes: boolean = null;
 
   constructor(private http: Http, private el: ElementRef) {
     this.patientService = new PatientService(http);
@@ -65,6 +67,7 @@ export class AppComponent implements OnInit {
     this.endDate = moment(this.el.nativeElement.getAttribute('endDate')).toDate();
     this.showRadarChart = this.el.nativeElement.getAttribute('showRadarChart').toLowerCase() === 'true';
     this.showLineChart = this.el.nativeElement.getAttribute('showLineChart').toLowerCase() === 'true';
+    this.showDailyClinicalNotes = this.el.nativeElement.getAttribute('showDailyClinicalNotes').toLowerCase() === 'true';
 
     this.loadCompletedMeasurementTools(this.patientId);
     this.loadPatient(this.patientId);
@@ -128,9 +131,16 @@ export class AppComponent implements OnInit {
     this.visitService.list(patientId, this.startDate, this.endDate).subscribe((result: any[]) => {
       this.visits = result;
       this.caseManagerNotes = result;
+      this.dailyClinicalNotes = result;
 
       this.caseManagerNotes = this.caseManagerNotes.filter((visit) => {
         const note = visit.ProgressNotes ? visit.ProgressNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
+
+        return note ? true : false;
+      });
+
+      this.dailyClinicalNotes =  this.dailyClinicalNotes.filter((visit) => {
+        const note = visit.DailyNotes ? visit.DailyNotes.replace(/<(?:.|\n)*?>/gm, '') : null;
 
         return note ? true : false;
       });
