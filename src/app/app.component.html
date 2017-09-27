@@ -1,17 +1,20 @@
 <div class="row">
   <div class="col-xs-4">
-    <img src="{{facility?.Avatar? 'data:image/png;base64,' + facility?.Avatar : 'http://via.placeholder.com/150x150?text=Patient+photograph+not+available'}}" class="img-thumbnail"
-      width="150" height="150" alt="Profile Image">
+    <img src="{{facility?.Avatar? 'data:image/png;base64,' + facility?.Avatar : 'http://via.placeholder.com/150x150?text=Patient+photograph+not+available'}}"
+      class="img-thumbnail" width="150" height="150" alt="Profile Image">
   </div>
   <div class="col-xs-4">
-    <h2>Progress Report</h2>
+    <h2>Patient Report</h2>
     <label>{{startDate | date:'dd MMMM yyyy'}} to {{endDate | date:'dd MMMM yyyy'}}</label>
     <h3>{{patient?.Firstname}} {{patient?.Lastname}}</h3>
   </div>
   <div class="col-xs-4">
-    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=Facility+logo+not+available'}}" width="150"
-      height="150" class="img-thumbnail" alt="Profile Image">
-    <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download'}}</button>
+    <div>
+      <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download'}}</button>
+      <button name="download" class="btn btn-primary pull-right" style="margin-right: 5px" (click)="downloadOther()">{{busyDownloading? 'Please wait...' : 'Download Other'}}</button>
+    </div>
+    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=Facility+logo+not+available'}}"
+      width="150" height="150" class="img-thumbnail" alt="Profile Image">
   </div>
 </div>
 <div class="row padded">
