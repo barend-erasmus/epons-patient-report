@@ -196,7 +196,7 @@ export class AppComponent implements OnInit {
       facilityId: this.facilityId,
       startDate: this.startDate,
       endDate: this.endDate,
-      showDailyClinicalNotes: this.showCaseManagerNotes,
+      showDailyClinicalNotes: this.showDailyClinicalNotes,
       showCaseManagerNotes: this.showCaseManagerNotes,
     }, { responseType: ResponseContentType.Blob })
       .map(res => res.blob())
@@ -215,7 +215,7 @@ export class AppComponent implements OnInit {
       facilityId: this.facilityId,
       startDate: this.startDate,
       endDate: this.endDate,
-      showDailyClinicalNotes: !this.showCaseManagerNotes,
+      showDailyClinicalNotes: !this.showDailyClinicalNotes,
       showCaseManagerNotes: !this.showCaseManagerNotes,
     }, { responseType: ResponseContentType.Blob })
       .map(res => res.blob())
