@@ -10,8 +10,7 @@
   </div>
   <div class="col-xs-4">
     <div>
-      <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download'}}</button>
-      <button name="download" class="btn btn-primary pull-right" style="margin-right: 5px" (click)="downloadOther()">{{busyDownloading? 'Please wait...' : 'Download Other'}}</button>
+      <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download PDF'}}</button>
     </div>
     <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=Facility+logo+not+available'}}"
       width="150" height="150" class="img-thumbnail" alt="Profile Image">
