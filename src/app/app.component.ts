@@ -98,6 +98,25 @@ export class AppComponent implements OnInit {
     this.export(charts);
   }
 
+  public downloadOther(): void {
+    const canvasElements: any[] = this.el.nativeElement.querySelectorAll('canvas');
+
+    const charts: any = {};
+
+    for (const cv of canvasElements) {
+      const name = cv.attributes['id'].value.split('-')[0];
+      const type = cv.attributes['id'].value.split('-')[1];
+
+      if (!charts[name]) {
+        charts[name] = {};
+      }
+
+      charts[name][type] = cv.toDataURL();
+    }
+
+    this.exportOther(charts);
+  }
+
   private loadFacility(facilityId: string): void {
     this.facilityService.find(facilityId).subscribe((result) => {
       this.facility = result;
@@ -179,6 +198,25 @@ export class AppComponent implements OnInit {
       endDate: this.endDate,
       showDailyClinicalNotes: this.showCaseManagerNotes,
       showCaseManagerNotes: this.showCaseManagerNotes,
+    }, { responseType: ResponseContentType.Blob })
+      .map(res => res.blob())
+      .subscribe(data2 => {
+        FileSaver.saveAs(data2, `PPR_${this.patient.Firstname}_${this.patient.Lastname}.pdf`);
+        this.busyDownloading = false;
+      });
+  }
+
+  private exportOther(charts: any): void {
+    this.busyDownloading = true;
+
+    this.http.post(`http://epons.openservices.co.za/epons-patient-report-service`, {
+      charts,
+      patientId: this.patientId,
+      facilityId: this.facilityId,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      showDailyClinicalNotes: !this.showCaseManagerNotes,
+      showCaseManagerNotes: !this.showCaseManagerNotes,
     }, { responseType: ResponseContentType.Blob })
       .map(res => res.blob())
       .subscribe(data2 => {
