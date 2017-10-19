@@ -23,7 +23,7 @@ export class CompletedMeasurementToolComponent implements OnChanges {
         max: 7,
       },
       pointLabels: {
-        fontSize: 17		
+        fontSize: 17
       }
     },
     legend: {
@@ -145,15 +145,34 @@ export class CompletedMeasurementToolComponent implements OnChanges {
 
   private wordWrap(str: string): string[] {
 
-    let workingStr = str;
-    const newStr = [];
+    const splittedString = str.split(' ');
 
-    while (workingStr.length > 20) {
-      newStr.push(workingStr.slice(0, 20));
-      workingStr = workingStr.slice(20)
+    if (str.length < 20) {
+      return [str];
     }
 
-    newStr.push(workingStr);
+    const newStr = [];
+
+    let workingStr = null;
+
+    for (const item of splittedString) {
+      
+      if (!workingStr) {
+        workingStr = item;
+        continue;
+      }
+
+      if (workingStr.length + item.length < 20) {
+        workingStr += ` ${item}`;
+      } else {
+        newStr.push(workingStr);
+        workingStr = item;
+      }
+    }
+
+    if (workingStr) {
+      newStr.push(workingStr);
+    }
 
     return newStr;
   }
