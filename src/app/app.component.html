@@ -12,7 +12,7 @@
     <div>
       <button name="download" class="btn btn-primary pull-right" (click)="download()">{{busyDownloading? 'Please wait...' : 'Download PDF'}}</button>
     </div>
-    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://via.placeholder.com/150x150?text=Facility+logo+not+available'}}"
+    <img src="{{patient?.Avatar? 'data:image/png;base64,' + patient?.Avatar : 'http://live.sadfm.co.za/content/img/nopatient.png'}}"
       width="150" height="150" class="img-thumbnail" alt="Profile Image">
   </div>
 </div>
