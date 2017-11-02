@@ -107,6 +107,7 @@ export class AppComponent implements OnInit {
   private loadPatient(patientId: string): void {
     this.patientService.findById(patientId).subscribe((result: any) => {
       this.patient = result;
+      console.log(result);
     });
   }
 

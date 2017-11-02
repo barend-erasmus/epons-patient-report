@@ -210,9 +210,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let supportService of patient?.SupportServices">
+        <tr *ngFor="let supportService of patient?.SupportServiceDetails">
           <td>{{supportService.SupportService.Name}}</td>
           <td>{{supportService.Text}}</td>
+        </tr>
+        <tr *ngIf="patient?.SupportServiceDetails.length == 0">
+          <td>
+            No information available
+          </td>
         </tr>
       </tbody>
     </table>
