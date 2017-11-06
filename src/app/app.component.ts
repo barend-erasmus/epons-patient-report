@@ -107,7 +107,6 @@ export class AppComponent implements OnInit {
   private loadPatient(patientId: string): void {
     this.patientService.findById(patientId).subscribe((result: any) => {
       this.patient = result;
-      console.log(result);
     });
   }
 
@@ -173,6 +172,7 @@ export class AppComponent implements OnInit {
     this.busyDownloading = true;
 
     this.http.post(`http://epons.openservices.co.za/epons-patient-report-service`, {
+    // this.http.post(`http://localhost:3000/epons-patient-report-service`, {
       charts,
       patientId: this.patientId,
       facilityId: this.facilityId,
