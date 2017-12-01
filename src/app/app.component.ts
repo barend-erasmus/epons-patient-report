@@ -171,7 +171,7 @@ export class AppComponent implements OnInit {
   private export(charts: any): void {
     this.busyDownloading = true;
 
-    this.http.post(`http://epons.openservices.co.za/epons-patient-report-service`, {
+    this.http.post(`http://services.epons.sadfm.co.za/epons-patient-report-service`, {
     // this.http.post(`http://localhost:3000/epons-patient-report-service`, {
       charts,
       patientId: this.patientId,
