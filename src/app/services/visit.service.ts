@@ -29,6 +29,13 @@ export class VisitService extends BaseService {
 
       const json: any[] = x.json();
 
+      for (const item of json) {
+        item.StartDate = new Date(item.StartDate.split('T').join(' '));
+        item.EndDate = new Date(item.EndDate.split('T').join(' '));
+      }
+
+      console.log(json);
+
       return json;
     });
   }
