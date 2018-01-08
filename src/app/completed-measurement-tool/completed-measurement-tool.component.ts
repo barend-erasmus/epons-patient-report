@@ -90,12 +90,12 @@ export class CompletedMeasurementToolComponent implements OnChanges {
 
     let radarTempData = this.data
       .sort((a: any, b: any) => {
-        return a.EndDate > b.EndDate ? 1 : 0;
+        return a.EndDate - b.EndDate;
       });
 
     let lineTempData = this.data
       .sort((a: any, b: any) => {
-        return a.EndDate > b.EndDate ? 1 : 0;
+        return a.EndDate - b.EndDate;
       });
 
     if (radarTempData.length === 0) {
